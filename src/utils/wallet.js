@@ -1,10 +1,19 @@
+import { saveSignature, getSignature } from "../../src/services/authService";
+const Web3 = require("web3");
+var web3 = new Web3(Web3.givenProvider);
 var metamask = "https://metamask.app.link/dapp/rentnode.io";
+
 export const connectWallet = async () => {
   if (window.ethereum) {
     try {
       const addressArray = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
+      const signature = await web3.eth.personal.sign(
+        "rentnode",
+        addressArray[0]
+      );
+      saveSignature(signature);
       const obj = {
         status: true,
         address: addressArray[0],
@@ -26,14 +35,14 @@ export const connectWallet = async () => {
         status: false,
         address: "",
         message: (
-          <span style={{ textAlign: "center" }}>
+          <span style={{ textAlign: "center", padding: "9% 12%" }}>
             <img
               src={
                 "https://storage.googleapis.com/ishro.com/uploads/62679864512a7.svg"
               }
               style={{ width: "40%", margin: "10%" }}
             />
-            <p>
+            <p style={{ lineHeight: "22px" }}>
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </p>
@@ -45,12 +54,12 @@ export const connectWallet = async () => {
                   lineHeight: "1.75",
                   backgroundColor: "#FFCB3C",
                   borderRadius: "20px",
-                  fontFamily: "ElMessiri-Regular",
+                  fontFamily: "Montserrat-Regular",
                   textTransform: "capitalize",
                   color: "#373535",
                   fontSize: "12px",
                   padding: "10px 30px",
-                  margin: "4% 0.5%",
+                  margin: "8% 0.5%",
                 }}
               >
                 Install
@@ -69,6 +78,13 @@ export const getCurrentWalletConnected = async () => {
       const addressArray = await window.ethereum.request({
         method: "eth_accounts",
       });
+      if (!getSignature()) {
+        const signature = await web3.eth.personal.sign(
+          "rentnode",
+          addressArray[0]
+        );
+        saveSignature(signature);
+      }
       if (addressArray.length > 0) {
         return {
           status: true,
@@ -80,14 +96,16 @@ export const getCurrentWalletConnected = async () => {
           status: false,
           address: "",
           message: (
-            <span style={{ textAlign: "center" }}>
+            <span style={{ textAlign: "center", padding: "9% 12%" }}>
               <img
                 src={
                   "https://storage.googleapis.com/ishro.com/uploads/62679864512a7.svg"
                 }
                 style={{ width: "40%", margin: "10%" }}
               />
-              <p>Connect to Metamask using the top right button.</p>
+              <p style={{ lineHeight: "22px" }}>
+                Connect to Metamask using the top right button.
+              </p>
               {/* <a target="_blank" href={`https://metamask.io/download.html`}>
                 <button
                   style={{
@@ -96,7 +114,7 @@ export const getCurrentWalletConnected = async () => {
                     lineHeight: "1.75",
                     backgroundColor: "#FFCB3C",
                     borderRadius: "20px",
-                    fontFamily: "ElMessiri-Regular",
+                    fontFamily: "Montserrat-Regular",
                     textTransform: "capitalize",
                     color: "#373535",
                     fontSize: "12px",
@@ -126,14 +144,14 @@ export const getCurrentWalletConnected = async () => {
         status: false,
         address: "",
         message: (
-          <span style={{ textAlign: "center" }}>
+          <span style={{ textAlign: "center", padding: "9% 12%" }}>
             <img
               src={
                 "https://storage.googleapis.com/ishro.com/uploads/62679864512a7.svg"
               }
               style={{ width: "40%", margin: "10%" }}
             />
-            <p>
+            <p style={{ lineHeight: "22px" }}>
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </p>
@@ -145,12 +163,12 @@ export const getCurrentWalletConnected = async () => {
                   lineHeight: "1.75",
                   backgroundColor: "#FFCB3C",
                   borderRadius: "20px",
-                  fontFamily: "ElMessiri-Regular",
+                  fontFamily: "Montserrat-Regular",
                   textTransform: "capitalize",
                   color: "#373535",
                   fontSize: "12px",
                   padding: "10px 30px",
-                  margin: "4% 0.5%",
+                  margin: "8% 0.5%",
                 }}
               >
                 Install
@@ -180,14 +198,16 @@ export const walletListener = async () => {
           status: false,
           address: "",
           message: (
-            <span style={{ textAlign: "center" }}>
+            <span style={{ textAlign: "center", padding: "9% 12%" }}>
               <img
                 src={
                   "https://storage.googleapis.com/ishro.com/uploads/62679864512a7.svg"
                 }
                 style={{ width: "40%", margin: "10%" }}
               />
-              <p>Connect to Metamask using the top right button.</p>
+              <p style={{ lineHeight: "22px" }}>
+                Connect to Metamask using the top right button.
+              </p>
               {/* <a target="_blank" href={`https://metamask.io/download.html`}>
                 <button
                   style={{
@@ -196,7 +216,7 @@ export const walletListener = async () => {
                     lineHeight: "1.75",
                     backgroundColor: "#FFCB3C",
                     borderRadius: "20px",
-                    fontFamily: "ElMessiri-Regular",
+                    fontFamily: "Montserrat-Regular",
                     textTransform: "capitalize",
                     color: "#373535",
                     fontSize: "12px",
@@ -226,14 +246,14 @@ export const walletListener = async () => {
         status: false,
         address: "",
         message: (
-          <span style={{ textAlign: "center" }}>
+          <span style={{ textAlign: "center", padding: "9% 12%" }}>
             <img
               src={
                 "https://storage.googleapis.com/ishro.com/uploads/62679864512a7.svg"
               }
               style={{ width: "40%", margin: "10%" }}
             />
-            <p>
+            <p style={{ lineHeight: "22px" }}>
               You must install Metamask, a virtual Ethereum wallet, in your
               browser.
             </p>
@@ -245,12 +265,12 @@ export const walletListener = async () => {
                   lineHeight: "1.75",
                   backgroundColor: "#FFCB3C",
                   borderRadius: "20px",
-                  fontFamily: "ElMessiri-Regular",
+                  fontFamily: "Montserrat-Regular",
                   textTransform: "capitalize",
                   color: "#373535",
                   fontSize: "12px",
                   padding: "10px 30px",
-                  margin: "4% 0.5%",
+                  margin: "8% 0.5%",
                 }}
               >
                 Install
