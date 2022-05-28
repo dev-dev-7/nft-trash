@@ -6,6 +6,7 @@ import {
 } from "../utils/switchChainMetamask";
 import { setStep, setPaymentData } from "../store/reducers/payment";
 import { store } from "../store/index";
+import * as actionCreators from "../store/actions";
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 
 // import { Moralis } from "react-moralis";
@@ -22,7 +23,7 @@ export const handlePay = async (data) => {
   UserInputdata = data;
   let web3;
   let Contract;
-  let toAddress = "0x7Ab8330FbdDF839cA4aaB3200B9f315C36773438";
+  let toAddress = "0xee03af834BF31cd5E2feC6c8B02397DEFD7AEca7"; //0x6D602F82EF10e385A790dDE865C0d2Df60B041A8
   let fromAddress = window.ethereum.selectedAddress;
   let finalAmount;
   if (window?.ethereum) {
@@ -52,7 +53,6 @@ export const handlePay = async (data) => {
     });
     if (fromAddress) {
       if (data.paymentCurrency == "BNB" || data.paymentCurrency == "ETH") {
-        alert(fromAddress);
         fetch(
           `https://min-api.cryptocompare.com/data/price?fsym=${data.paymentCurrency}&tsyms=BTC,USD,EUR`
         )
@@ -98,6 +98,10 @@ export const handlePay = async (data) => {
                               store.dispatch(
                                 setPaymentData(response.data.data)
                               );
+                              var body = {
+                                wallet_address: fromAddress,
+                              };
+                              store.dispatch(actionCreators.getMyOrders(body));
                               store.dispatch(setStep("4"));
                             } else {
                               store.dispatch(setStep("5"));
@@ -142,6 +146,10 @@ export const handlePay = async (data) => {
                 //success
                 if (response.data?.success) {
                   store.dispatch(setPaymentData(response.data.data));
+                  var body = {
+                    wallet_address: fromAddress,
+                  };
+                  store.dispatch(actionCreators.getMyOrders(body));
                   store.dispatch(setStep("4"));
                 } else {
                   store.dispatch(setStep("5"));
