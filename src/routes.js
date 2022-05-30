@@ -7,7 +7,7 @@ const routesList = (isLoggedIn) => [
   {
     path: "/",
     element: <DefaultLayout />,
-    children: [{ path: "", element: <Welcome /> }],
+    children: [{ path: "", element: <Home /> }],
   },
 ];
 

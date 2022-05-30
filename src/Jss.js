@@ -9,8 +9,8 @@ const preset = create({
 });
 
 export default function Jss(props) {
-  const secondaryColor = "#AF6C07";
-  const primaryColor = "#933D3D";
+  const secondaryColor = "#E35130";
+  const primaryColor = "#FFFFFF";
   const black = "#000000";
   const accentBlue = "#0077BE";
   const secondaryColor_vip = "#B1A773";
@@ -21,46 +21,42 @@ export default function Jss(props) {
         styleOverrides: {
           contained: {
             borderRadius: "5px",
-            fontFamily: "ElMessiri-Regular",
+            fontFamily: "Inter-SemiBold",
             textTransform: "capitalize",
-            color: "#E2CBA6",
-            fontSize: "26px",
-            padding: "10px 55px",
+            color: primaryColor,
+            fontSize: "20px",
+            padding: "10px 35px",
             margin: "0% 0.5%",
-            boxShadow:
-              "0px 11px 29px 4px rgb(138 131 129 / 21%), inset 4px -4px 5px rgb(0 0 0 / 52%), inset -4px 5px 5px rgb(255 255 255 / 50%)",
-
-            backgroundColor: "#933D3D",
+            height: "48px",
+            backgroundColor: secondaryColor,
             "&:hover": {
-              // backgroundColor: primaryColor,
+              backgroundColor: secondaryColor,
             },
           },
           outlined: {
             borderRadius: "20px",
             textTransform: "capitalize",
-            fontFamily: "ElMessiri-Regular",
             borderColor: secondaryColor,
-            fontSize: "18px",
+            fontSize: "20px",
             "&:hover": {
               borderColor: secondaryColor,
             },
             color: secondaryColor,
-            padding: "10px 30px",
           },
           text: {
-            color: "#E2CBA6",
+            color: "#272727",
             textTransform: "capitalize",
-            fontFamily: "ElMessiri-Regular",
+            fontFamily: "Inter-SemiBold",
             fontSize: "18px",
+            padding: "10px 35px",
           },
         },
       },
-
       MuiOutlinedInput: {
         styleOverrides: {
           root: {
             borderRadius: "14px",
-            fontFamily: "ElMessiri-Regular",
+            fontFamily: "Inter-Regular",
             backgroundColor: " #FFFFFF",
             color: " #000000",
             boxShadow: "0px 2px 6px 0px #13124212",
@@ -94,11 +90,16 @@ export default function Jss(props) {
           },
         },
       },
+      MuiAppBar: {
+        styleOverrides: {
+          root: { border: "4px solid black", borderRadius: "10px" },
+        },
+      },
     },
+
     palette: {
       background: {
         dark: "#E2E2E3",
-        // default: "#303030",
         paper: "#ffffff",
         light: "#FFFFFE",
         black: black,
@@ -118,7 +119,7 @@ export default function Jss(props) {
         main: "#BEFFBD",
       },
       text: {
-        primary: "#E2CBA6",
+        primary: "#272727",
       },
     },
     typography,

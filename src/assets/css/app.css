@@ -1,21 +1,21 @@
 @font-face {
-  font-family: "ElMessiri-Bold";
-  src: url(../../../src/assets/fonts/ElMessiri-Bold.ttf);
+  font-family: "Inter-Bold";
+  src: url(../../../src/assets/fonts/Inter-Bold.ttf);
 }
 
 @font-face {
-  font-family: "ElMessiri-Medium";
-  src: url(../../../src/assets/fonts/ElMessiri-Medium.ttf);
+  font-family: "Inter-Medium";
+  src: url(../../../src/assets/fonts/Inter-Medium.ttf);
 }
 
 @font-face {
-  font-family: "ElMessiri-Regular";
-  src: url(../../../src/assets/fonts/ElMessiri-Regular.ttf);
+  font-family: "Inter-Regular";
+  src: url(../../../src/assets/fonts/Inter-Regular.ttf);
 }
 
 @font-face {
-  font-family: "ElMessiri-SemiBold";
-  src: url(../../../src/assets/fonts/ElMessiri-SemiBold.ttf);
+  font-family: "Inter-SemiBold";
+  src: url(../../../src/assets/fonts/Inter-SemiBold.ttf);
 }
 
 /* Primary Color */
@@ -23,12 +23,12 @@ body,
 html {
   line-height: 1;
   height: 100%;
-  font-family: "ElMessiri-Regular" !important;
+  font-family: "Inter-Regular" !important;
 }
 body {
   font-size: 14px;
   color: #373535;
-  font-family: "ElMessiri-Regular";
+  font-family: "Inter-Regular";
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }

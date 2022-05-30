@@ -1,5 +1,5 @@
 export default {
-  fontFamily: ["ElMessiri-Regular"],
+  fontFamily: ["Inter-Regular"],
 
   h1: {
     fontSize: 70,
