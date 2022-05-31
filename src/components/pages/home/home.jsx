@@ -20,6 +20,10 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import nft from "../../../assets/image/nft.svg";
+import nft2 from "../../../assets/image/nft2.svg";
+import nft3 from "../../../assets/image/nft3.svg";
+import nft4 from "../../../assets/image/nft4.svg";
 
 const useStyles = makeStyles((theme) => ({
   mainBg: {
@@ -36,6 +40,20 @@ const useStyles = makeStyles((theme) => ({
   tabheader: {
     backgroundColor: "#F4F4F4 !important",
     height: "50px",
+    minHeight: "50px!important",
+  },
+  img: {
+    width: "107px",
+    height: "135px",
+    border: "1px solid rgb(0 0 0 / 50%)",
+    borderRadius: "3px",
+    margin: "0.6%",
+  },
+  imgSelect: {
+    width: "107px",
+    height: "135px",
+    border: "1px solid rgb(0 0 0 / 50%)",
+    borderRadius: "3px",
   },
 }));
 
@@ -64,47 +82,51 @@ const Home = () => {
   };
 
   const posts = [
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
     {
-      title: "Fine Cats",
-      content: "You can install React from npm.",
+      title: "ChubbyKaijuDAO",
+      collection: [nft, nft2, nft3, nft4, nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
     },
-    { title: "ChubbyKaijuDAO", content: "Welcome to learning React!" },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
     {
       title: "Fine Cats",
-      content: "You can install React from npm.",
+      collection: [nft, nft2, nft3, nft4],
+    },
+    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
+    {
+      title: "Fine Cats",
+      collection: [nft, nft2, nft3, nft4],
     },
   ];
+  const collection = [nft, nft2, nft3, nft4];
 
   const menuId = "primary-search-account-menu";
 
@@ -187,7 +209,16 @@ const Home = () => {
         {renderMobileMenu}
       </Box>
       <Grid container className={classes.main}>
-        <Grid item xs={4} style={{ backgroundColor: "white", margin: "1.5%" }}>
+        <Grid
+          item
+          xs={4}
+          style={{
+            backgroundColor: "white",
+            margin: "1.5%",
+            overflowY: "auto",
+            height: "69vh",
+          }}
+        >
           {posts.map((post) => (
             <Accordion>
               <AccordionSummary
@@ -198,13 +229,57 @@ const Home = () => {
               >
                 <Typography>{post.title}</Typography>
               </AccordionSummary>
-              <AccordionDetails>
-                <Typography>{post.content}</Typography>
+              <AccordionDetails style={{ padding: "4px" }}>
+                {post.collection.map((data) => (
+                  <img src={data} className={classes.img} />
+                ))}
               </AccordionDetails>
             </Accordion>
           ))}
         </Grid>
-        <Grid item xs={4}></Grid>
+        <Grid
+          item
+          xs={4}
+          style={{
+            backgroundColor: "white",
+            margin: "1.5% 0%",
+            borderRadius: "10px",
+            padding: "0.3%",
+            position: "relative",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#F4F4F4",
+              height: "45px",
+              borderTopLeftRadius: "6px",
+              borderTopRightRadius: "6px",
+              fontSize: "20px",
+              fontFamily: "Inter-SemiBold",
+              display: "flex",
+              alignItems: "center",
+              paddingLeft: "2%",
+            }}
+          >
+            Selected Tokens
+          </div>
+          <>
+            {collection.map((data) => (
+              <img src={data} className={classes.img} />
+            ))}
+          </>
+          <Button
+            variant="contained"
+            style={{
+              width: "97%",
+              bottom: "12px",
+              position: "absolute",
+              left: "6px",
+            }}
+          >
+            CONFIRM
+          </Button>
+        </Grid>
         <Grid item xs={4}></Grid>
       </Grid>
     </>
