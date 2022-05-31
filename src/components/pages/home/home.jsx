@@ -25,6 +25,8 @@ import nft2 from "../../../assets/image/nft2.svg";
 import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 
+import DeleteIcon from "@mui/icons-material/Delete";
+
 const useStyles = makeStyles((theme) => ({
   mainBg: {
     width: "100%",
@@ -36,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     width: "100% !important",
     margin: "0px !important",
+    padding: "1%",
+    justifyContent: "center",
   },
   tabheader: {
     backgroundColor: "#F4F4F4 !important",
@@ -54,6 +58,11 @@ const useStyles = makeStyles((theme) => ({
     height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
     borderRadius: "3px",
+  },
+  div1: {
+    backgroundColor: "white",
+    overflowY: "auto",
+    height: "69vh",
   },
 }));
 
@@ -208,79 +217,135 @@ const Home = () => {
         </AppBar>
         {renderMobileMenu}
       </Box>
-      <Grid container className={classes.main}>
-        <Grid
-          item
-          xs={4}
-          style={{
-            backgroundColor: "white",
-            margin: "1.5%",
-            overflowY: "auto",
-            height: "69vh",
-          }}
-        >
-          {posts.map((post) => (
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                className={classes.tabheader}
-              >
-                <Typography>{post.title}</Typography>
-              </AccordionSummary>
-              <AccordionDetails style={{ padding: "4px" }}>
-                {post.collection.map((data) => (
-                  <img src={data} className={classes.img} />
-                ))}
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </Grid>
-        <Grid
-          item
-          xs={4}
-          style={{
-            backgroundColor: "white",
-            margin: "1.5% 0%",
-            borderRadius: "10px",
-            padding: "0.3%",
-            position: "relative",
-          }}
-        >
+      <Grid
+        container
+        className={classes.main}
+        spacing={{ xs: 0, lg: 3, md: 3 }}
+      >
+        <Grid item xs={12} md={4} lg={4}>
           <div
             style={{
-              backgroundColor: "#F4F4F4",
-              height: "45px",
-              borderTopLeftRadius: "6px",
-              borderTopRightRadius: "6px",
-              fontSize: "20px",
-              fontFamily: "Inter-SemiBold",
-              display: "flex",
-              alignItems: "center",
-              paddingLeft: "2%",
+              backgroundColor: "white",
+              overflowY: "auto",
+              height: "69vh",
             }}
           >
-            Selected Tokens
+            {posts.map((post) => (
+              <Accordion>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                  className={classes.tabheader}
+                >
+                  <Typography>{post.title}</Typography>
+                </AccordionSummary>
+                <AccordionDetails style={{ padding: "4px" }}>
+                  {post.collection.map((data) => (
+                    <img src={data} className={classes.img} />
+                  ))}
+                </AccordionDetails>
+              </Accordion>
+            ))}{" "}
           </div>
-          <>
-            {collection.map((data) => (
-              <img src={data} className={classes.img} />
-            ))}
-          </>
-          <Button
-            variant="contained"
+        </Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <div
             style={{
-              width: "97%",
-              bottom: "12px",
-              position: "absolute",
-              left: "6px",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "0.3%",
+              position: "relative",
+              height: "69vh",
             }}
           >
-            CONFIRM
-          </Button>
+            <div
+              style={{
+                backgroundColor: "#F4F4F4",
+                height: "45px",
+                borderTopLeftRadius: "6px",
+                borderTopRightRadius: "6px",
+                fontSize: "20px",
+                fontFamily: "Inter-SemiBold",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "2%",
+              }}
+            >
+              Selected Tokens
+            </div>
+            <>
+              {collection.map((data) => (
+                <img src={data} className={classes.img} />
+              ))}
+            </>
+            <Button
+              variant="contained"
+              style={{
+                width: "97%",
+                bottom: "12px",
+                position: "absolute",
+                left: "6px",
+              }}
+            >
+              CONFIRM
+            </Button>
+          </div>
         </Grid>
-        <Grid item xs={4}></Grid>
+        <Grid item xs={12} md={4} lg={4}>
+          <div>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              style={{
+                height: "26vh",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                padding: "0.3%",
+                position: "relative",
+              }}
+            >
+              <div
+                style={{
+                  backgroundColor: "#F4F4F4",
+                  height: "45px",
+                  borderTopLeftRadius: "6px",
+                  borderTopRightRadius: "6px",
+                  fontSize: "20px",
+                  fontFamily: "Inter-SemiBold",
+                  display: "flex",
+                  alignItems: "center",
+                  paddingLeft: "2%",
+                }}
+              >
+                Dont think much
+              </div>
+              <Button
+                variant="contained"
+                startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
+                style={{ position: "absolute", bottom: "5px", width: "98%" }}
+              >
+                TRASH
+              </Button>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              md={12}
+              lg={12}
+              style={{
+                backgroundColor: "white",
+                borderRadius: "10px",
+                padding: "0.3%",
+                position: "relative",
+                height: "40vh",
+                marginTop: "5%",
+              }}
+            ></Grid>
+          </div>
+        </Grid>
       </Grid>
     </>
   );
