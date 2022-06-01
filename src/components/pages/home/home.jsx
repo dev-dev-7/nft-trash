@@ -87,9 +87,15 @@ const Home = () => {
         nfts[i].contract.name = contractTitle;
         if (nfts[i].metadata) {
           let nftImage = nfts[i].metadata.image;
-
-          console.log("nftImage == ", nftImage);
-
+          if (nftImage) {
+            let ipfs = nftImage.includes("ipfs://");
+            if (ipfs) {
+              var nftImageArray = nftImage.split("//");
+              nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+            }
+            nfts[i].metadata.image = nftImage;
+          }
+          // console.log("image == ", nfts[i].metadata.image);
           if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
             const index = existContractArray.findIndex(
               (contract) => contract === nfts[i].contract.address
@@ -117,6 +123,7 @@ const Home = () => {
         }
       }
     }
+    console.log("nftArray ====", nftArray);
     setNftPosts(nftArray);
   }, []);
 
@@ -302,7 +309,11 @@ const Home = () => {
                 </AccordionSummary>
                 <AccordionDetails style={{ padding: "4px" }}>
                   {post.nfts.map((data, n) => (
-                    <img src={nft4} className={classes.img} key={n} />
+                    <img
+                      src={data.media.image}
+                      className={classes.img}
+                      key={n}
+                    />
                   ))}
                 </AccordionDetails>
               </Accordion>
