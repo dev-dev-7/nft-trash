@@ -235,8 +235,8 @@ const Home = () => {
               height: "69vh",
             }}
           >
-            {posts.map((post) => (
-              <Accordion>
+            {posts.map((post, j) => (
+              <Accordion key={j}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -246,8 +246,8 @@ const Home = () => {
                   <Typography>{post.title}</Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ padding: "4px" }}>
-                  {post.collection.map((data) => (
-                    <img src={data} className={classes.img} />
+                  {post.collection.map((data, n) => (
+                    <img src={data} className={classes.img} key={n} />
                   ))}
                 </AccordionDetails>
               </Accordion>
@@ -280,8 +280,8 @@ const Home = () => {
               Selected Tokens
             </div>
             <>
-              {collection.map((data) => (
-                <img src={data} className={classes.img} />
+              {collection.map((data, i) => (
+                <img src={data} className={classes.img} key={i} />
               ))}
             </>
             <Button
@@ -332,7 +332,7 @@ const Home = () => {
                 startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
                 style={{ position: "absolute", bottom: "5px", width: "98%" }}
               >
-                TRASH
+                Just do it
               </Button>
             </Grid>
             <Grid
