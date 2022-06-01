@@ -87,6 +87,7 @@ const Home = () => {
         nfts[i].contract.name = contractTitle;
         if (nfts[i].metadata) {
           if (nfts[i].metadata.poster) {
+            nfts[i].metadata.video = nfts[i].metadata.image;
             nfts[i].metadata.image = nfts[i].metadata.poster;
             nfts[i].metadata.type = "video";
           } else {
