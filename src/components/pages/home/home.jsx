@@ -392,7 +392,9 @@ const Home = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography>{priceVal.title} </Typography>
+                    <Typography style={{ fontFamily: "Inter-Bold" }}>
+                      {priceVal.title}{" "}
+                    </Typography>
                     <Typography
                       style={{ color: "#FF5C5C", fontFamily: "Inter-Bold" }}
                     >
