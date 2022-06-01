@@ -1,21 +1,21 @@
 @font-face {
-  font-family: "Inter-Bold";
-  src: url(../../../src/assets/fonts/Inter-Bold.ttf);
+  font-family: "IBMPlexMono-Bold";
+  src: url(../../../src/assets/fonts/IBMPlexMono-Bold.ttf);
 }
 
 @font-face {
-  font-family: "Inter-Medium";
-  src: url(../../../src/assets/fonts/Inter-Medium.ttf);
+  font-family: "IBMPlexMono-Medium";
+  src: url(../../../src/assets/fonts/IBMPlexMono-Medium.ttf);
 }
 
 @font-face {
-  font-family: "Inter-Regular";
-  src: url(../../../src/assets/fonts/Inter-Regular.ttf);
+  font-family: "IBMPlexMono-Regular";
+  src: url(../../../src/assets/fonts/IBMPlexMono-Regular.ttf);
 }
 
 @font-face {
-  font-family: "Inter-SemiBold";
-  src: url(../../../src/assets/fonts/Inter-SemiBold.ttf);
+  font-family: "IBMPlexMono-SemiBold";
+  src: url(../../../src/assets/fonts/IBMPlexMono-SemiBold.ttf);
 }
 
 /* Primary Color */
@@ -23,12 +23,12 @@ body,
 html {
   line-height: 1;
   height: 100%;
-  font-family: "Inter-Regular" !important;
+  font-family: "IBMPlexMono-Regular" !important;
 }
 body {
   font-size: 14px;
   color: #373535;
-  font-family: "Inter-Regular";
+  font-family: "IBMPlexMono-Regular";
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }

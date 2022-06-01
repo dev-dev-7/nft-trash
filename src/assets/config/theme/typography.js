@@ -1,5 +1,5 @@
 export default {
-  fontFamily: ["Inter-Regular"],
+  fontFamily: ["IBMPlexMono-Regular"],
 
   h1: {
     fontSize: 70,

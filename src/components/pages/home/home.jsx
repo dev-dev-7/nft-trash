@@ -197,7 +197,12 @@ const Home = () => {
       collection: [nft, nft2, nft3, nft4],
     },
   ];
-  const collection = [nft, nft2, nft3, nft4];
+  const collection = [
+    { type: "image", image: nft },
+    { type: "v", image: nft },
+    { type: "v", image: nft },
+    { type: "image", image: nft },
+  ];
   const price = [
     {
       title: "CHUBBY",
@@ -299,7 +304,7 @@ const Home = () => {
               backgroundColor: "white",
               overflowY: "auto",
               height: "69vh",
-              borderRadius: "10px",
+              borderRadius: "5px",
             }}
           >
             {nftPosts.map((post, j) => (
@@ -339,7 +344,7 @@ const Home = () => {
           <div
             style={{
               backgroundColor: "white",
-              borderRadius: "10px",
+              borderRadius: "5px",
               padding: "0.3%",
               position: "relative",
               height: "69vh",
@@ -352,7 +357,7 @@ const Home = () => {
                 borderTopLeftRadius: "6px",
                 borderTopRightRadius: "6px",
                 fontSize: "20px",
-                fontFamily: "Inter-SemiBold",
+                fontFamily: "IBMPlexMono-SemiBold",
                 display: "flex",
                 alignItems: "center",
                 paddingLeft: "2%",
@@ -360,11 +365,17 @@ const Home = () => {
             >
               Selected Tokens
             </div>
-            <div className="animate__animated animate__bounce">
-              {collection.map((data, i) => (
-                <img src={data} className={classes.img} key={i} />
-              ))}
-            </div>
+            {/* <div className="animate__animated animate__bounce"> */}
+            {collection.map((data, n) =>
+              data.type == "image" ? (
+                <img src={data.image} className={classes.img} key={n} />
+              ) : (
+                <video className={classes.img} autoplay controls key={n}>
+                  <source src={data.image} />
+                </video>
+              )
+            )}
+            {/* </div> */}
             <Button
               variant="contained"
               style={{
@@ -388,7 +399,7 @@ const Home = () => {
               style={{
                 height: "26vh",
                 backgroundColor: "white",
-                borderRadius: "10px",
+                borderRadius: "5px",
                 padding: "0.3%",
                 position: "relative",
               }}
@@ -400,7 +411,7 @@ const Home = () => {
                   borderTopLeftRadius: "6px",
                   borderTopRightRadius: "6px",
                   fontSize: "20px",
-                  fontFamily: "Inter-SemiBold",
+                  fontFamily: "IBMPlexMono-SemiBold",
                   display: "flex",
                   alignItems: "center",
                   paddingLeft: "2%",
@@ -418,11 +429,14 @@ const Home = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography style={{ fontFamily: "Inter-Bold" }}>
+                    <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
                       {priceVal.title}{" "}
                     </Typography>
                     <Typography
-                      style={{ color: "#FF5C5C", fontFamily: "Inter-Bold" }}
+                      style={{
+                        color: "#FF5C5C",
+                        fontFamily: "IBMPlexMono-Bold",
+                      }}
                     >
                       {priceVal.cost}
                       {" ETH"}
@@ -445,7 +459,7 @@ const Home = () => {
               lg={12}
               style={{
                 backgroundColor: "white",
-                borderRadius: "10px",
+                borderRadius: "5px",
                 padding: "0.3%",
                 position: "relative",
                 height: "40vh",
