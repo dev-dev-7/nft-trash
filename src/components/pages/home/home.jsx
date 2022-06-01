@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import twitter from "../../../assets/image/twitter.svg";
 import discord from "../../../assets/image/discord.svg";
@@ -24,8 +24,8 @@ import nft from "../../../assets/image/nft.svg";
 import nft2 from "../../../assets/image/nft2.svg";
 import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
-
 import DeleteIcon from "@mui/icons-material/Delete";
+import { loadNfts } from "../../../utils/getNfts";
 
 const useStyles = makeStyles((theme) => ({
   mainBg: {
@@ -72,6 +72,11 @@ const Home = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  useEffect(async () => {
+    let nfts = await loadNfts("0xfae46f94ee7b2acb497cecaff6cff17f621c693d");
+    console.log("nfts :", nfts);
+  }, []);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);

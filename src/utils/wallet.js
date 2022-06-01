@@ -1,7 +1,7 @@
 import { saveSignature, getSignature } from "../../src/services/authService";
 const Web3 = require("web3");
 var web3 = new Web3(Web3.givenProvider);
-var metamask = "https://metamask.app.link/dapp/rentnode.io";
+var metamask = "https://metamask.app.link/dapp/destroy.wtf";
 
 export const connectWallet = async () => {
   if (window.ethereum) {
