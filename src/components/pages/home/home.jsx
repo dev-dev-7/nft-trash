@@ -26,6 +26,8 @@ import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
+import { TransferNFT } from "../../../utils/transferNFT";
+import { useWeb3Transfer } from "react-moralis";
 import "animate.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -134,6 +136,14 @@ const Home = () => {
     console.log("nftArray ====", nftArray);
     setNftPosts(nftArray);
   }, []);
+
+  const { fetch, error, isFetching } = useWeb3Transfer({
+    type: "erc721",
+    receiver: "0x8f9C9fc379e1d265872232A248F5259DC95B4bCd",
+    contractAddress: "0x..",
+    tokenId: 1,
+    amount: 15,
+  });
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -431,6 +441,8 @@ const Home = () => {
                 ))}
               </div>
               <Button
+                onClick={() => fetch()}
+                disabled={isFetching}
                 variant="contained"
                 startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
                 style={{ position: "absolute", bottom: "5px", width: "98%" }}

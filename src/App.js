@@ -3,17 +3,21 @@ import "../src/assets/css/app.css";
 import Routes from "./routes";
 import GlobalStyles from "../src/assets/styles/globalStyles";
 import Jss from "./Jss";
-// import { Web3ReactProvider } from "@web3-react/core";
-// import Web3 from "web3";
+import { MoralisProvider } from "react-moralis";
 
 const App = ({}) => {
   useEffect(() => {}, []);
   return (
     <>
-      <Jss>
-        <GlobalStyles />
-        <Routes />
-      </Jss>
+      <MoralisProvider
+        serverUrl="https://xwkvuaavdt4d.usemoralis.com:2053/server"
+        appId="QwERi5ZaWg4Ex0PGtc0AzWHKSk07dWEp0ODIqD06"
+      >
+        <Jss>
+          <GlobalStyles />
+          <Routes />
+        </Jss>
+      </MoralisProvider>
     </>
   );
 };
