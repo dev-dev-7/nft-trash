@@ -72,6 +72,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [deleteVal, setDeleteVal] = React.useState(false);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -207,7 +208,12 @@ const Home = () => {
       collection: [nft, nft2, nft3, nft4],
     },
   ];
-  const collection = [nft, nft2, nft3, nft4];
+  const collection = [
+    { type: "image", image: nft },
+    // { type: "v", image: nft },
+    // { type: "v", image: nft },
+    // { type: "image", image: nft },
+  ];
   const price = [
     {
       title: "CHUBBY",
@@ -308,8 +314,8 @@ const Home = () => {
             style={{
               backgroundColor: "white",
               overflowY: "auto",
-              height: "69vh",
-              borderRadius: "10px",
+              height: "70vh",
+              borderRadius: "5px",
             }}
           >
             {nftPosts.map((post, j) => (
@@ -320,7 +326,7 @@ const Home = () => {
                   id="panel1a-header"
                   className={classes.tabheader}
                 >
-                  <Typography>
+                  <Typography style={{ fontFamily: "IBMPlexMono-SemiBold" }}>
                     {post.contract.name
                       ? post.contract.name
                       : "undefined collection"}
@@ -349,7 +355,7 @@ const Home = () => {
           <div
             style={{
               backgroundColor: "white",
-              borderRadius: "10px",
+              borderRadius: "5px",
               padding: "0.3%",
               position: "relative",
               height: "69vh",
@@ -362,7 +368,7 @@ const Home = () => {
                 borderTopLeftRadius: "6px",
                 borderTopRightRadius: "6px",
                 fontSize: "20px",
-                fontFamily: "Inter-SemiBold",
+                fontFamily: "IBMPlexMono-SemiBold",
                 display: "flex",
                 alignItems: "center",
                 paddingLeft: "2%",
@@ -370,10 +376,20 @@ const Home = () => {
             >
               Selected Tokens
             </div>
-            <div className="animate__animated animate__bounce">
-              {collection.map((data, i) => (
-                <img src={data} className={classes.img} key={i} />
-              ))}
+            <div
+              className={
+                deleteVal ? "animate__animated animate__zoomOutDown" : ""
+              }
+            >
+              {collection.map((data, n) =>
+                data.type == "image" ? (
+                  <img src={data.image} className={classes.img} key={n} />
+                ) : (
+                  <video className={classes.img} autoplay controls key={n}>
+                    <source src={data.image} />
+                  </video>
+                )
+              )}
             </div>
             <Button
               variant="contained"
@@ -389,6 +405,72 @@ const Home = () => {
           </div>
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
+          <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: "5px",
+              padding: "0.3%",
+              position: "relative",
+              height: "69vh",
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#F4F4F4",
+                height: "45px",
+                borderTopLeftRadius: "6px",
+                borderTopRightRadius: "6px",
+                fontSize: "20px",
+                fontFamily: "IBMPlexMono-SemiBold",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "2%",
+              }}
+            >
+              Dont think much
+            </div>
+            <div style={{ padding: "2%" }}>
+              {price.map((priceVal, k) => (
+                <span
+                  key={k}
+                  style={{
+                    display: "flex",
+                    alignContent: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
+                    {priceVal.title}{" "}
+                  </Typography>
+                  <Typography
+                    style={{
+                      color: "#FF5C5C",
+                      fontFamily: "IBMPlexMono-Bold",
+                    }}
+                  >
+                    {priceVal.cost}
+                    {" ETH"}
+                  </Typography>
+                </span>
+              ))}
+            </div>
+            <Button
+              variant="contained"
+              startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
+              style={{
+                width: "97%",
+                bottom: "12px",
+                position: "absolute",
+                left: "6px",
+              }}
+              onClick={() => setDeleteVal(true)}
+            >
+              Just do it
+            </Button>
+          </div>
+        </Grid>
+
+        {/* <Grid item xs={12} md={4} lg={4}>
           <div>
             <Grid
               item
@@ -398,7 +480,7 @@ const Home = () => {
               style={{
                 height: "26vh",
                 backgroundColor: "white",
-                borderRadius: "10px",
+                borderRadius: "5px",
                 padding: "0.3%",
                 position: "relative",
               }}
@@ -410,7 +492,7 @@ const Home = () => {
                   borderTopLeftRadius: "6px",
                   borderTopRightRadius: "6px",
                   fontSize: "20px",
-                  fontFamily: "Inter-SemiBold",
+                  fontFamily: "IBMPlexMono-SemiBold",
                   display: "flex",
                   alignItems: "center",
                   paddingLeft: "2%",
@@ -428,11 +510,14 @@ const Home = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Typography style={{ fontFamily: "Inter-Bold" }}>
+                    <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
                       {priceVal.title}{" "}
                     </Typography>
                     <Typography
-                      style={{ color: "#FF5C5C", fontFamily: "Inter-Bold" }}
+                      style={{
+                        color: "#FF5C5C",
+                        fontFamily: "IBMPlexMono-Bold",
+                      }}
                     >
                       {priceVal.cost}
                       {" ETH"}
@@ -457,7 +542,7 @@ const Home = () => {
               lg={12}
               style={{
                 backgroundColor: "white",
-                borderRadius: "10px",
+                borderRadius: "5px",
                 padding: "0.3%",
                 position: "relative",
                 height: "40vh",
@@ -465,7 +550,7 @@ const Home = () => {
               }}
             ></Grid>
           </div>
-        </Grid>
+        </Grid> */}
       </Grid>
     </>
   );

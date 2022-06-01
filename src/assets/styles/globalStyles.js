@@ -13,7 +13,7 @@ const useStyles = makeStyles(() =>
         "-moz-osx-font-smoothing": "grayscale",
         height: "100%",
         width: "100%",
-        fontFamily: "Inter-Regular",
+        fontFamily: "IBMPlexMono-Regular",
       },
       body: {
         backgroundColor: "#ffffff",

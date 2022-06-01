@@ -20,8 +20,8 @@ export default function Jss(props) {
       MuiButton: {
         styleOverrides: {
           contained: {
-            borderRadius: "5px",
-            fontFamily: "Inter-SemiBold",
+            borderRadius: "0px",
+            fontFamily: "IBMPlexMono-SemiBold",
             textTransform: "capitalize",
             color: primaryColor,
             fontSize: "20px",
@@ -29,6 +29,8 @@ export default function Jss(props) {
             margin: "0% 0.5%",
             height: "48px",
             backgroundColor: secondaryColor,
+            borderRight: "2px solid black",
+            borderBottom: "2px solid black",
             "&:hover": {
               backgroundColor: secondaryColor,
             },
@@ -46,7 +48,7 @@ export default function Jss(props) {
           text: {
             color: "#272727",
             textTransform: "capitalize",
-            fontFamily: "Inter-SemiBold",
+            fontFamily: "IBMPlexMono-SemiBold",
             fontSize: "18px",
             padding: "10px 35px",
           },
@@ -56,7 +58,7 @@ export default function Jss(props) {
         styleOverrides: {
           root: {
             borderRadius: "14px",
-            fontFamily: "Inter-Regular",
+            fontFamily: "IBMPlexMono-Regular",
             backgroundColor: " #FFFFFF",
             color: " #000000",
             boxShadow: "0px 2px 6px 0px #13124212",
