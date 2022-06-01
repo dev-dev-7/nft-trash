@@ -86,14 +86,20 @@ const Home = () => {
         let contractTitle = await getContractDetails(nfts[i].contract.address);
         nfts[i].contract.name = contractTitle;
         if (nfts[i].metadata) {
-          let nftImage = nfts[i].metadata.image;
-          if (nftImage) {
-            let ipfs = nftImage.includes("ipfs://");
-            if (ipfs) {
-              var nftImageArray = nftImage.split("//");
-              nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+          if (nfts[i].metadata.poster) {
+            nfts[i].metadata.image = nfts[i].metadata.poster;
+            nfts[i].metadata.type = "video";
+          } else {
+            let nftImage = nfts[i].metadata.image;
+            if (nftImage) {
+              let ipfs = nftImage.includes("ipfs://");
+              if (ipfs) {
+                var nftImageArray = nftImage.split("//");
+                nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+              }
+              nfts[i].metadata.image = nftImage;
             }
-            nfts[i].metadata.image = nftImage;
+            nfts[i].metadata.type = "image";
           }
           // console.log("image == ", nfts[i].metadata.image);
           if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
