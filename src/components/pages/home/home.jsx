@@ -136,7 +136,16 @@ const Home = () => {
     },
   ];
   const collection = [nft, nft2, nft3, nft4];
-
+  const price = [
+    {
+      title: "CHUBBY",
+      cost: "0.151",
+    },
+    {
+      title: "CHUBBY",
+      cost: "0.151",
+    },
+  ];
   const menuId = "primary-search-account-menu";
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -321,6 +330,26 @@ const Home = () => {
                 }}
               >
                 Dont think much
+              </div>
+              <div style={{ padding: "2%" }}>
+                {price.map((priceVal, k) => (
+                  <span
+                    key={k}
+                    style={{
+                      display: "flex",
+                      alignContent: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography>{priceVal.title} </Typography>
+                    <Typography
+                      style={{ color: "#FF5C5C", fontFamily: "Inter-Bold" }}
+                    >
+                      {priceVal.cost}
+                      {" ETH"}
+                    </Typography>
+                  </span>
+                ))}
               </div>
               <Button
                 variant="contained"
