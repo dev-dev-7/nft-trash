@@ -26,6 +26,7 @@ import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
+import "animate.css";
 
 const useStyles = makeStyles((theme) => ({
   mainBg: {
@@ -298,6 +299,7 @@ const Home = () => {
               backgroundColor: "white",
               overflowY: "auto",
               height: "69vh",
+              borderRadius: "10px",
             }}
           >
             {nftPosts.map((post, j) => (
@@ -315,13 +317,19 @@ const Home = () => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ padding: "4px" }}>
-                  {post.nfts.map((data, n) => (
-                    <img
-                      src={data.media.image}
-                      className={classes.img}
-                      key={n}
-                    />
-                  ))}
+                  {post.nfts.map((data, n) =>
+                    data.media.type == "image" ? (
+                      <img
+                        src={data.media.image}
+                        className={classes.img}
+                        key={n}
+                      />
+                    ) : (
+                      <video className={classes.img} autoplay controls>
+                        <source src={data.media.video} />
+                      </video>
+                    )
+                  )}
                 </AccordionDetails>
               </Accordion>
             ))}{" "}
@@ -352,11 +360,11 @@ const Home = () => {
             >
               Selected Tokens
             </div>
-            <>
+            <div className="animate__animated animate__bounce">
               {collection.map((data, i) => (
                 <img src={data} className={classes.img} key={i} />
               ))}
-            </>
+            </div>
             <Button
               variant="contained"
               style={{
