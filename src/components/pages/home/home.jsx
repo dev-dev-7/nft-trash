@@ -25,7 +25,7 @@ import nft2 from "../../../assets/image/nft2.svg";
 import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { loadNfts } from "../../../utils/getNfts";
+import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 
 const useStyles = makeStyles((theme) => ({
   mainBg: {
@@ -72,10 +72,52 @@ const Home = () => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const [nftPosts, setNftPosts] = React.useState([]);
 
   useEffect(async () => {
-    let nfts = await loadNfts("0xfae46f94ee7b2acb497cecaff6cff17f621c693d");
-    console.log("nfts :", nfts);
+    const totalResult = await loadNfts(
+      "0xfae46f94ee7b2acb497cecaff6cff17f621c693d"
+    );
+    const nftArray = [];
+    const existContractArray = [];
+    const nfts = totalResult.ownedNfts;
+    if (totalResult.totalCount > 0) {
+      for (let i = 0; i < totalResult.totalCount; i++) {
+        let contractTitle = await getContractDetails(nfts[i].contract.address);
+        nfts[i].contract.name = contractTitle;
+        if (nfts[i].metadata) {
+          let nftImage = nfts[i].metadata.image;
+
+          console.log("nftImage == ", nftImage);
+
+          if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
+            const index = existContractArray.findIndex(
+              (contract) => contract === nfts[i].contract.address
+            );
+            let objChild = {
+              title: nfts[i].title,
+              media: nfts[i].media,
+              media: nfts[i].metadata,
+            };
+            nftArray[index].nfts.push(objChild);
+          } else {
+            let obj = {
+              contract: nfts[i].contract,
+              nfts: [
+                {
+                  title: nfts[i].title,
+                  media: nfts[i].media,
+                  media: nfts[i].metadata,
+                },
+              ],
+            };
+            nftArray.push(obj);
+            existContractArray.push(nfts[i].contract.address);
+          }
+        }
+      }
+    }
+    setNftPosts(nftArray);
   }, []);
 
   const handleProfileMenuOpen = (event) => {
@@ -244,7 +286,7 @@ const Home = () => {
               height: "69vh",
             }}
           >
-            {posts.map((post, j) => (
+            {nftPosts.map((post, j) => (
               <Accordion key={j}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
@@ -252,11 +294,15 @@ const Home = () => {
                   id="panel1a-header"
                   className={classes.tabheader}
                 >
-                  <Typography>{post.title}</Typography>
+                  <Typography>
+                    {post.contract.name
+                      ? post.contract.name
+                      : "undefined collection"}
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails style={{ padding: "4px" }}>
-                  {post.collection.map((data, n) => (
-                    <img src={data} className={classes.img} key={n} />
+                  {post.nfts.map((data, n) => (
+                    <img src={nft4} className={classes.img} key={n} />
                   ))}
                 </AccordionDetails>
               </Accordion>
