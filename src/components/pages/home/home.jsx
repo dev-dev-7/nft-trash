@@ -527,7 +527,7 @@ const Home = () => {
                       fontFamily: "IBMPlexMono-Bold",
                     }}
                   >
-                    {"0.051"}
+                    {"0.05"}
                     {" ETH"}
                   </Typography>
                 </span>
