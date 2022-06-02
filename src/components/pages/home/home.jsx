@@ -26,8 +26,12 @@ import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
+<<<<<<< HEAD
 import { TransferNFT } from "../../../utils/transferNFT";
 import { useWeb3Transfer } from "react-moralis";
+=======
+import dustbin from "../../../assets/image/dustbin.gif";
+>>>>>>> 70532c67f44da51d3dbfc9b149da49ea272aaee0
 import "animate.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -210,9 +214,9 @@ const Home = () => {
   ];
   const collection = [
     { type: "image", image: nft },
-    // { type: "v", image: nft },
-    // { type: "v", image: nft },
-    // { type: "image", image: nft },
+    { type: "v", image: nft },
+    { type: "v", image: nft },
+    { type: "image", image: nft },
   ];
   const price = [
     {
@@ -377,6 +381,7 @@ const Home = () => {
               Selected Tokens
             </div>
             <div
+              style={{ textAlign: "center" }}
               className={
                 deleteVal ? "animate__animated animate__zoomOutDown" : ""
               }
@@ -391,17 +396,30 @@ const Home = () => {
                 )
               )}
             </div>
-            <Button
-              variant="contained"
-              style={{
-                width: "97%",
-                bottom: "12px",
-                position: "absolute",
-                left: "6px",
-              }}
-            >
-              CONFIRM
-            </Button>
+            {deleteVal ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  position: "absolute",
+                  bottom: "0%",
+                  width: "100%",
+                }}
+              >
+                <img src={dustbin} />
+              </div>
+            ) : (
+              <Button
+                variant="contained"
+                style={{
+                  width: "97%",
+                  bottom: "12px",
+                  position: "absolute",
+                  left: "6px",
+                }}
+              >
+                CONFIRM
+              </Button>
+            )}
           </div>
         </Grid>
         <Grid item xs={12} md={4} lg={4}>

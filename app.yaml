@@ -1,6 +1,7 @@
 runtime: nodejs16
 env: standard
 instance_class: F1
+service: demo
 
 handlers:
   - url: /static
