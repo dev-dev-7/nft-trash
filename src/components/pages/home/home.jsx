@@ -173,6 +173,15 @@ const Home = () => {
     setDemo(nft);
   };
 
+  const handleRemoveReserveNft = (nft) => {
+    var oldArray = reserveNfts;
+    oldArray = oldArray.filter(
+      (value) => value.token.tokenId != nft.token.tokenId
+    );
+    setReserveNfts(oldArray);
+    setDemo(nft);
+  };
+
   const collection = [
     { type: "image", image: nft },
     { type: "v", image: nft },
@@ -308,18 +317,31 @@ const Home = () => {
                     <Grid container spacing={{ xs: 0, lg: 2, md: 2 }}>
                       {post.nfts.map((data, n) =>
                         data.media.type == "image" ? (
-                          <Grid item xs={3} md={3} lg={3}>
+                          <Grid
+                            item
+                            xs={3}
+                            md={3}
+                            lg={3}
+                            onClick={() => {
+                              handleReserveNft(data);
+                            }}
+                          >
                             <img
                               src={data.media.image}
                               className={classes.img}
                               key={n}
-                              onClick={() => {
-                                handleReserveNft(data);
-                              }}
                             />
                           </Grid>
                         ) : (
-                          <Grid item xs={3} md={3} lg={3}>
+                          <Grid
+                            item
+                            xs={3}
+                            md={3}
+                            lg={3}
+                            onClick={() => {
+                              handleReserveNft(data);
+                            }}
+                          >
                             <video className={classes.img} autoPlay controls>
                               <source src={data.media.video} />
                             </video>
@@ -376,7 +398,15 @@ const Home = () => {
             >
               {reserveNfts.map((data, n) =>
                 data.media.type == "image" ? (
-                  <Grid item xs={3} md={3} lg={3}>
+                  <Grid
+                    item
+                    xs={3}
+                    md={3}
+                    lg={3}
+                    onClick={() => {
+                      handleRemoveReserveNft(data);
+                    }}
+                  >
                     <img
                       src={data.media.image}
                       className={classes.img}
@@ -384,7 +414,15 @@ const Home = () => {
                     />
                   </Grid>
                 ) : (
-                  <Grid item xs={3} md={3} lg={3}>
+                  <Grid
+                    item
+                    xs={3}
+                    md={3}
+                    lg={3}
+                    onClick={() => {
+                      handleRemoveReserveNft(data);
+                    }}
+                  >
                     <video className={classes.img} autoPlay controls key={n}>
                       <source src={data.media.video} />
                     </video>
