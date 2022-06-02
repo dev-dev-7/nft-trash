@@ -20,7 +20,6 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import nft from "../../../assets/image/nft.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
@@ -182,27 +181,6 @@ const Home = () => {
     setDemo(nft);
   };
 
-  const collection = [
-    { type: "image", image: nft },
-    { type: "v", image: nft },
-    { type: "v", image: nft },
-    { type: "image", image: nft },
-    { type: "image", image: nft },
-    { type: "v", image: nft },
-    { type: "v", image: nft },
-    { type: "image", image: nft },
-  ];
-
-  const price = [
-    {
-      title: "CHUBBY",
-      cost: "0.151",
-    },
-    {
-      title: "CHUBBY",
-      cost: "0.151",
-    },
-  ];
   const menuId = "primary-search-account-menu";
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -484,7 +462,7 @@ const Home = () => {
               Dont think much
             </div>
             <div style={{ padding: "2%" }}>
-              {price.map((priceVal, k) => (
+              {reserveNfts.map((data, k) => (
                 <span
                   key={k}
                   style={{
@@ -494,7 +472,7 @@ const Home = () => {
                   }}
                 >
                   <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
-                    {priceVal.title}{" "}
+                    {data?.media?.name ? data.media.name : "no name"}{" "}
                   </Typography>
                   <Typography
                     style={{
@@ -502,7 +480,7 @@ const Home = () => {
                       fontFamily: "IBMPlexMono-Bold",
                     }}
                   >
-                    {priceVal.cost}
+                    {"0.051"}
                     {" ETH"}
                   </Typography>
                 </span>
