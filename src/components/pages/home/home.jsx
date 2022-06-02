@@ -113,6 +113,7 @@ const Home = () => {
   const [reserveNfts, setReserveNfts] = React.useState([]);
   const [demo, setDemo] = React.useState("");
   const [walletAddress, setWalletAddress] = React.useState("");
+  const [confirmed, setConfirmed] = React.useState(false);
 
   const [anchorEl2, setAnchorEl2] = React.useState(null);
   const open = Boolean(anchorEl2);
@@ -258,27 +259,6 @@ const Home = () => {
     setDemo(nft);
   };
 
-  const collection = [
-    { type: "image", image: nft },
-    { type: "v", image: nft },
-    { type: "v", image: nft },
-    { type: "image", image: nft },
-    { type: "image", image: nft },
-    { type: "v", image: nft },
-    { type: "v", image: nft },
-    { type: "image", image: nft },
-  ];
-
-  const price = [
-    {
-      title: "CHUBBY",
-      cost: "0.151",
-    },
-    {
-      title: "CHUBBY",
-      cost: "0.151",
-    },
-  ];
   const menuId = "primary-search-account-menu";
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -535,17 +515,22 @@ const Home = () => {
               )}
             </Grid>
 
-            <Button
-              variant="contained"
-              style={{
-                width: "97%",
-                bottom: "12px",
-                position: "absolute",
-                left: "6px",
-              }}
-            >
-              CONFIRM
-            </Button>
+            {!confirmed && reserveNfts.length > 0 ? (
+              <Button
+                variant="contained"
+                style={{
+                  width: "97%",
+                  bottom: "12px",
+                  position: "absolute",
+                  left: "6px",
+                }}
+                onClick={() => setConfirmed(true)}
+              >
+                CONFIRM
+              </Button>
+            ) : (
+              ""
+            )}
           </div>
         </Grid>
         <Grid
@@ -573,7 +558,7 @@ const Home = () => {
               Dont think much
             </div>
             <div style={{ padding: "2%", overflowX: "auto", height: "58vh" }}>
-              {price.map((priceVal, k) => (
+              {reserveNfts.map((value, k) => (
                 <span
                   key={k}
                   style={{
@@ -583,7 +568,7 @@ const Home = () => {
                   }}
                 >
                   <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
-                    {priceVal.title}{" "}
+                    {value.media.name}{" "}
                   </Typography>
                   <Typography
                     style={{
@@ -597,19 +582,21 @@ const Home = () => {
                 </span>
               ))}
             </div>
-            <Button
-              variant="contained"
-              startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
-              style={{
-                width: "97%",
-                bottom: "12px",
-                position: "absolute",
-                left: "6px",
-              }}
-              onClick={() => setDeleteVal(true)}
-            >
-              Just do it
-            </Button>
+            {confirmed && (
+              <Button
+                variant="contained"
+                startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
+                style={{
+                  width: "97%",
+                  bottom: "12px",
+                  position: "absolute",
+                  left: "6px",
+                }}
+                onClick={() => setDeleteVal(true)}
+              >
+                Just do it
+              </Button>
+            )}
           </div>
         </Grid>
 
