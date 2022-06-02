@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   main: {
     backgroundColor: "#F6BBBB",
     border: "4px solid black",
-    borderRadius: "10px",
+    borderRadius: "5px",
     width: "100% !important",
     margin: "0px !important",
     padding: "2% 1%",
@@ -82,6 +82,22 @@ const useStyles = makeStyles((theme) => ({
       border: "2px solid black",
       borderRadius: "5px",
       marginBottom: "5% !important",
+    },
+  },
+  subcollection: {
+    backgroundColor: "white",
+    borderRadius: "5px",
+    padding: "0.3%",
+    position: "relative",
+    height: "70vh",
+
+    [theme.breakpoints.down("sm")]: { height: "39vh" },
+  },
+  appbar: {
+    border: "4px solid black",
+    borderRadius: "5px",
+    [theme.breakpoints.down("sm")]: {
+      border: "2px solid black",
     },
   },
 }));
@@ -304,7 +320,7 @@ const Home = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1, marginBottom: "3%" }}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appbar}>
           <Toolbar>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -462,15 +478,7 @@ const Home = () => {
           style={{ paddingTop: "0px" }}
           className={classes.collection}
         >
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "5px",
-              padding: "0.3%",
-              position: "relative",
-              height: "70vh",
-            }}
-          >
+          <div className={classes.subcollection}>
             <div
               style={{
                 backgroundColor: "#F4F4F4",
@@ -548,15 +556,7 @@ const Home = () => {
           style={{ paddingTop: "0px" }}
           className={classes.collection}
         >
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "5px",
-              padding: "0.3%",
-              position: "relative",
-              height: "70vh",
-            }}
-          >
+          <div className={classes.subcollection}>
             <div
               style={{
                 backgroundColor: "#F4F4F4",
