@@ -24,12 +24,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
 import { useWeb3Transfer } from "react-moralis";
-import dustbin from "../../../assets/image/dustbin.gif";
 import wallet from "../../../assets/image/wallet.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "animate.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import {
+  connectWallet,
+  getCurrentWalletConnected,
+  walletListener,
+} from "../../../utils/wallet.js";
 
 const useStyles = makeStyles((theme) => ({
   mainBg: {
@@ -79,69 +83,89 @@ const Home = () => {
   const [nftPosts, setNftPosts] = React.useState([]);
   const [reserveNfts, setReserveNfts] = React.useState([]);
   const [demo, setDemo] = React.useState("");
+  const [walletAddress, setWalletAddress] = React.useState("");
 
   useEffect(async () => {
-    const totalResult = await loadNfts(
-      "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
-    );
-    const nftArray = [];
-    const existContractArray = [];
-    const nfts = totalResult.ownedNfts;
-    const totalNftsCount = totalResult.ownedNfts.length;
-    if (totalNftsCount > 0) {
-      for (let i = 0; i < totalNftsCount; i++) {
-        if (nfts[i]?.contract) {
-          let contractTitle = await getContractDetails(
-            nfts[i].contract.address
-          );
-          nfts[i].contract.name = contractTitle;
-          if (nfts[i].metadata) {
-            if (nfts[i].metadata.poster) {
-              nfts[i].metadata.video = nfts[i].metadata.image;
-              nfts[i].metadata.image = nfts[i].metadata.poster;
-              nfts[i].metadata.type = "video";
-            } else {
-              let nftImage = nfts[i].metadata.image;
-              if (nftImage) {
-                let ipfs = nftImage.includes("ipfs://");
-                if (ipfs) {
-                  var nftImageArray = nftImage.split("//");
-                  nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+    const { address } = await getCurrentWalletConnected();
+    setWalletAddress(address);
+    walletListener();
+
+    if (window.ethereum) {
+      // window.ethereum.on("chainChanged", () => {
+      //   console.log("NETWORK: ", getMetamaskNetwork(window.ethereum.chainId));
+      // });
+      window.ethereum.on("accountsChanged", async () => {
+        const { address } = await getCurrentWalletConnected();
+        setWalletAddress(address);
+      });
+    }
+
+    if (address) {
+      const totalResult = await loadNfts(address);
+      const nftArray = [];
+      const existContractArray = [];
+      const nfts = totalResult.ownedNfts;
+      const totalNftsCount = totalResult.ownedNfts.length;
+      if (totalNftsCount > 0) {
+        for (let i = 0; i < totalNftsCount; i++) {
+          if (nfts[i]?.contract) {
+            let contractTitle = await getContractDetails(
+              nfts[i].contract.address
+            );
+            nfts[i].contract.name = contractTitle;
+            if (nfts[i].metadata) {
+              if (nfts[i].metadata.poster) {
+                nfts[i].metadata.video = nfts[i].metadata.image;
+                nfts[i].metadata.image = nfts[i].metadata.poster;
+                nfts[i].metadata.type = "video";
+              } else {
+                let nftImage = nfts[i].metadata.image;
+                if (nftImage) {
+                  let ipfs = nftImage.includes("ipfs://");
+                  if (ipfs) {
+                    var nftImageArray = nftImage.split("//");
+                    nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+                  }
+                  nfts[i].metadata.image = nftImage;
                 }
-                nfts[i].metadata.image = nftImage;
+                nfts[i].metadata.type = "image";
               }
-              nfts[i].metadata.type = "image";
-            }
-            if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
-              const index = existContractArray.findIndex(
-                (contract) => contract === nfts[i].contract.address
-              );
-              let objChild = {
-                title: nfts[i].title,
-                media: nfts[i].metadata,
-                token: nfts[i].id,
-              };
-              nftArray[index].nfts.push(objChild);
-            } else {
-              let obj = {
-                contract: nfts[i].contract,
-                nfts: [
-                  {
-                    title: nfts[i].title,
-                    media: nfts[i].metadata,
-                    token: nfts[i].id,
-                  },
-                ],
-              };
-              nftArray.push(obj);
-              existContractArray.push(nfts[i].contract.address);
+              if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
+                const index = existContractArray.findIndex(
+                  (contract) => contract === nfts[i].contract.address
+                );
+                let objChild = {
+                  title: nfts[i].title,
+                  media: nfts[i].metadata,
+                  token: nfts[i].id,
+                };
+                nftArray[index].nfts.push(objChild);
+              } else {
+                let obj = {
+                  contract: nfts[i].contract,
+                  nfts: [
+                    {
+                      title: nfts[i].title,
+                      media: nfts[i].metadata,
+                      token: nfts[i].id,
+                    },
+                  ],
+                };
+                nftArray.push(obj);
+                existContractArray.push(nfts[i].contract.address);
+              }
             }
           }
         }
       }
+      setNftPosts(nftArray);
     }
-    setNftPosts(nftArray);
   }, []);
+
+  const connectWalletPressed = async () => {
+    const walletResponse = await connectWallet();
+    setWalletAddress(walletResponse.address);
+  };
 
   const { fetch, error, isFetching } = useWeb3Transfer({
     type: "erc721",
@@ -171,7 +195,10 @@ const Home = () => {
   const handleReserveNft = (nft) => {
     var newArray = nft;
     var oldArray = reserveNfts;
-    oldArray.push(newArray);
+    const found = oldArray.some(
+      (el) => el.token.tokenId === newArray.token.tokenId
+    );
+    if (!found) oldArray.push(newArray);
     setReserveNfts(oldArray);
     setDemo(nft);
   };
@@ -272,7 +299,12 @@ const Home = () => {
               <Button variant="text">Roadmap</Button>
               <Button variant="text">FAQ</Button>
               <Button variant="text">Marketplace</Button>
-              <Button variant="contained">Connect</Button>
+              <Button
+                variant="contained"
+                onClick={!walletAddress ? connectWalletPressed : ""}
+              >
+                {walletAddress ? "Connected" : "Connect"}
+              </Button>
             </Box>
             <Box sx={{ display: { md: "none", xs: "block" } }}>
               <Button
