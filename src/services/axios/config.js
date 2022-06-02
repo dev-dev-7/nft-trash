@@ -1,7 +1,7 @@
 import axios from "axios";
 
 var instance = axios.create({
-  baseURL: "https://api.rentnode.io/",
+  baseURL: "https://api.destroy.wtf/",
   timeout: 15000,
   headers: {
     Accept: "application/json",

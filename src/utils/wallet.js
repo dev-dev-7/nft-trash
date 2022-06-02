@@ -10,7 +10,7 @@ export const connectWallet = async () => {
         method: "eth_requestAccounts",
       });
       const signature = await web3.eth.personal.sign(
-        "rentnode",
+        "https://destroy.wtf",
         addressArray[0]
       );
       saveSignature(signature);
@@ -80,7 +80,7 @@ export const getCurrentWalletConnected = async () => {
       });
       if (!getSignature()) {
         const signature = await web3.eth.personal.sign(
-          "rentnode",
+          "https://destroy.wtf",
           addressArray[0]
         );
         saveSignature(signature);
