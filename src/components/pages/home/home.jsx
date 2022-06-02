@@ -21,9 +21,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import nft from "../../../assets/image/nft.svg";
-import nft2 from "../../../assets/image/nft2.svg";
-import nft3 from "../../../assets/image/nft3.svg";
-import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
@@ -34,6 +31,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "animate.css";
 import CircularProgress from "@mui/material/CircularProgress";
+
 const useStyles = makeStyles((theme) => ({
   mainBg: {
     width: "100%",
@@ -78,9 +76,10 @@ const Home = () => {
   const [deleteVal, setDeleteVal] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [nftPosts, setNftPosts] = React.useState([]);
+  const [reserveNfts, setReserveNfts] = React.useState([]);
+  const [demo, setDemo] = React.useState("");
 
   useEffect(async () => {
     const totalResult = await loadNfts(
@@ -114,15 +113,14 @@ const Home = () => {
               }
               nfts[i].metadata.type = "image";
             }
-            // console.log("image == ", nfts[i].metadata.image);
             if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
               const index = existContractArray.findIndex(
                 (contract) => contract === nfts[i].contract.address
               );
               let objChild = {
                 title: nfts[i].title,
-                media: nfts[i].media,
                 media: nfts[i].metadata,
+                token: nfts[i].id,
               };
               nftArray[index].nfts.push(objChild);
             } else {
@@ -131,8 +129,8 @@ const Home = () => {
                 nfts: [
                   {
                     title: nfts[i].title,
-                    media: nfts[i].media,
                     media: nfts[i].metadata,
+                    token: nfts[i].id,
                   },
                 ],
               };
@@ -171,51 +169,23 @@ const Home = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const posts = [
-    {
-      title: "ChubbyKaijuDAO",
-      collection: [nft, nft2, nft3, nft4, nft, nft2, nft3, nft4],
-    },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-    { title: "ChubbyKaijuDAO", collection: [nft, nft2, nft3, nft4] },
-    {
-      title: "Fine Cats",
-      collection: [nft, nft2, nft3, nft4],
-    },
-  ];
+  const handleReserveNft = (nft) => {
+    var newArray = nft;
+    var oldArray = reserveNfts;
+    oldArray.push(newArray);
+    setReserveNfts(oldArray);
+    setDemo(nft);
+  };
+
+  const handleRemoveReserveNft = (nft) => {
+    var oldArray = reserveNfts;
+    oldArray = oldArray.filter(
+      (value) => value.token.tokenId != nft.token.tokenId
+    );
+    setReserveNfts(oldArray);
+    setDemo(nft);
+  };
+
   const collection = [
     { type: "image", image: nft },
     { type: "v", image: nft },
@@ -226,6 +196,7 @@ const Home = () => {
     { type: "v", image: nft },
     { type: "image", image: nft },
   ];
+
   const price = [
     {
       title: "CHUBBY",
@@ -372,7 +343,15 @@ const Home = () => {
                     <Grid container spacing={{ xs: 0, lg: 2, md: 2 }}>
                       {post.nfts.map((data, n) =>
                         data.media.type == "image" ? (
-                          <Grid item xs={3} md={3} lg={3}>
+                          <Grid
+                            item
+                            xs={3}
+                            md={3}
+                            lg={3}
+                            onClick={() => {
+                              handleReserveNft(data);
+                            }}
+                          >
                             <img
                               src={data.media.image}
                               className={classes.img}
@@ -380,7 +359,15 @@ const Home = () => {
                             />
                           </Grid>
                         ) : (
-                          <Grid item xs={3} md={3} lg={3}>
+                          <Grid
+                            item
+                            xs={3}
+                            md={3}
+                            lg={3}
+                            onClick={() => {
+                              handleReserveNft(data);
+                            }}
+                          >
                             <video className={classes.img} autoPlay controls>
                               <source src={data.media.video} />
                             </video>
@@ -435,15 +422,35 @@ const Home = () => {
               spacing={{ xs: 0, lg: 2, md: 2 }}
               sx={{ padding: "2%" }}
             >
-              {collection.map((data, n) =>
-                data.type == "image" ? (
-                  <Grid item xs={3} md={3} lg={3}>
-                    <img src={data.image} className={classes.img} key={n} />
+              {reserveNfts.map((data, n) =>
+                data.media.type == "image" ? (
+                  <Grid
+                    item
+                    xs={3}
+                    md={3}
+                    lg={3}
+                    onClick={() => {
+                      handleRemoveReserveNft(data);
+                    }}
+                  >
+                    <img
+                      src={data.media.image}
+                      className={classes.img}
+                      key={n}
+                    />
                   </Grid>
                 ) : (
-                  <Grid item xs={3} md={3} lg={3}>
+                  <Grid
+                    item
+                    xs={3}
+                    md={3}
+                    lg={3}
+                    onClick={() => {
+                      handleRemoveReserveNft(data);
+                    }}
+                  >
                     <video className={classes.img} autoPlay controls key={n}>
-                      <source src={data.image} />
+                      <source src={data.media.video} />
                     </video>
                   </Grid>
                 )
