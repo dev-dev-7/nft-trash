@@ -81,56 +81,63 @@ const Home = () => {
 
   useEffect(async () => {
     const totalResult = await loadNfts(
-      "0xfae46f94ee7b2acb497cecaff6cff17f621c693d"
+      "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
     );
+    console.log("totalResult :", totalResult);
+
     const nftArray = [];
     const existContractArray = [];
     const nfts = totalResult.ownedNfts;
-    if (totalResult.totalCount > 0) {
-      for (let i = 0; i < totalResult.totalCount; i++) {
-        let contractTitle = await getContractDetails(nfts[i].contract.address);
-        nfts[i].contract.name = contractTitle;
-        if (nfts[i].metadata) {
-          if (nfts[i].metadata.poster) {
-            nfts[i].metadata.video = nfts[i].metadata.image;
-            nfts[i].metadata.image = nfts[i].metadata.poster;
-            nfts[i].metadata.type = "video";
-          } else {
-            let nftImage = nfts[i].metadata.image;
-            if (nftImage) {
-              let ipfs = nftImage.includes("ipfs://");
-              if (ipfs) {
-                var nftImageArray = nftImage.split("//");
-                nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+    const totalNftsCount = totalResult.ownedNfts.length;
+    if (totalNftsCount > 0) {
+      for (let i = 0; i < totalNftsCount; i++) {
+        if (nfts[i]?.contract) {
+          let contractTitle = await getContractDetails(
+            nfts[i].contract.address
+          );
+          nfts[i].contract.name = contractTitle;
+          if (nfts[i].metadata) {
+            if (nfts[i].metadata.poster) {
+              nfts[i].metadata.video = nfts[i].metadata.image;
+              nfts[i].metadata.image = nfts[i].metadata.poster;
+              nfts[i].metadata.type = "video";
+            } else {
+              let nftImage = nfts[i].metadata.image;
+              if (nftImage) {
+                let ipfs = nftImage.includes("ipfs://");
+                if (ipfs) {
+                  var nftImageArray = nftImage.split("//");
+                  nftImage = "https://ipfs.io/ipfs/" + nftImageArray[1];
+                }
+                nfts[i].metadata.image = nftImage;
               }
-              nfts[i].metadata.image = nftImage;
+              nfts[i].metadata.type = "image";
             }
-            nfts[i].metadata.type = "image";
-          }
-          // console.log("image == ", nfts[i].metadata.image);
-          if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
-            const index = existContractArray.findIndex(
-              (contract) => contract === nfts[i].contract.address
-            );
-            let objChild = {
-              title: nfts[i].title,
-              media: nfts[i].media,
-              media: nfts[i].metadata,
-            };
-            nftArray[index].nfts.push(objChild);
-          } else {
-            let obj = {
-              contract: nfts[i].contract,
-              nfts: [
-                {
-                  title: nfts[i].title,
-                  media: nfts[i].media,
-                  media: nfts[i].metadata,
-                },
-              ],
-            };
-            nftArray.push(obj);
-            existContractArray.push(nfts[i].contract.address);
+            // console.log("image == ", nfts[i].metadata.image);
+            if (existContractArray.indexOf(nfts[i].contract.address) !== -1) {
+              const index = existContractArray.findIndex(
+                (contract) => contract === nfts[i].contract.address
+              );
+              let objChild = {
+                title: nfts[i].title,
+                media: nfts[i].media,
+                media: nfts[i].metadata,
+              };
+              nftArray[index].nfts.push(objChild);
+            } else {
+              let obj = {
+                contract: nfts[i].contract,
+                nfts: [
+                  {
+                    title: nfts[i].title,
+                    media: nfts[i].media,
+                    media: nfts[i].metadata,
+                  },
+                ],
+              };
+              nftArray.push(obj);
+              existContractArray.push(nfts[i].contract.address);
+            }
           }
         }
       }
@@ -342,7 +349,7 @@ const Home = () => {
                         key={n}
                       />
                     ) : (
-                      <video className={classes.img} autoplay controls>
+                      <video className={classes.img} autoPlay controls>
                         <source src={data.media.video} />
                       </video>
                     )
@@ -387,7 +394,7 @@ const Home = () => {
                 data.type == "image" ? (
                   <img src={data.image} className={classes.img} key={n} />
                 ) : (
-                  <video className={classes.img} autoplay controls key={n}>
+                  <video className={classes.img} autoPlay controls key={n}>
                     <source src={data.image} />
                   </video>
                 )
