@@ -25,12 +25,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
 import { useWeb3Transfer } from "react-moralis";
-import dustbin from "../../../assets/image/dustbin.gif";
 import wallet from "../../../assets/image/wallet.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import "animate.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import {
+  connectWallet,
+  getCurrentWalletConnected,
+  walletListener,
+} from "../../../utils/wallet.js";
 
 const useStyles = makeStyles((theme) => ({
   mainBg: {
@@ -92,6 +96,7 @@ const Home = () => {
   const [nftPosts, setNftPosts] = React.useState([]);
   const [reserveNfts, setReserveNfts] = React.useState([]);
   const [demo, setDemo] = React.useState("");
+  const [walletAddress, setWalletAddress] = React.useState("");
 
   const [anchorEl2, setAnchorEl2] = React.useState(null);
   const open = Boolean(anchorEl2);
@@ -103,9 +108,31 @@ const Home = () => {
   };
 
   useEffect(async () => {
-    const totalResult = await loadNfts(
-      "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
-    );
+    const { address } = await getCurrentWalletConnected();
+    setWalletAddress(address);
+    walletListener();
+    if (address) {
+      const result = await loadNfts(
+        "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
+      );
+      filterNftArray(result);
+    }
+    if (window.ethereum) {
+      // window.ethereum.on("chainChanged", () => {
+      //   console.log("NETWORK: ", getMetamaskNetwork(window.ethereum.chainId));
+      // });
+      window.ethereum.on("accountsChanged", async () => {
+        const { address } = await getCurrentWalletConnected();
+        setWalletAddress(address);
+        if (address) {
+          const result = await loadNfts(address);
+          filterNftArray(result);
+        }
+      });
+    }
+  }, []);
+
+  async function filterNftArray(totalResult) {
     const nftArray = [];
     const existContractArray = [];
     const nfts = totalResult.ownedNfts;
@@ -163,7 +190,12 @@ const Home = () => {
       }
     }
     setNftPosts(nftArray);
-  }, []);
+  }
+
+  const connectWalletPressed = async () => {
+    const walletResponse = await connectWallet();
+    setWalletAddress(walletResponse.address);
+  };
 
   const { fetch, error, isFetching } = useWeb3Transfer({
     type: "erc721",
@@ -193,7 +225,10 @@ const Home = () => {
   const handleReserveNft = (nft) => {
     var newArray = nft;
     var oldArray = reserveNfts;
-    oldArray.push(newArray);
+    const found = oldArray.some(
+      (el) => el.token.tokenId === newArray.token.tokenId
+    );
+    if (!found) oldArray.push(newArray);
     setReserveNfts(oldArray);
     setDemo(nft);
   };
@@ -315,7 +350,12 @@ const Home = () => {
               <Button variant="text">Roadmap</Button>
               <Button variant="text">FAQ</Button>
               <Button variant="text">Marketplace</Button>
-              <Button variant="contained">Connect</Button>
+              <Button
+                variant="contained"
+                onClick={!walletAddress ? connectWalletPressed : ""}
+              >
+                {walletAddress ? "Connected" : "Connect"}
+              </Button>
             </Box>
             <Box sx={{ display: { md: "none", xs: "block" } }}>
               <Button
