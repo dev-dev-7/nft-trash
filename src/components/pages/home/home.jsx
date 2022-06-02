@@ -25,6 +25,9 @@ import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
 import { useWeb3Transfer } from "react-moralis";
 import dustbin from "../../../assets/image/dustbin.gif";
+import wallet from "../../../assets/image/wallet.svg";
+import MenuIcon from "@mui/icons-material/Menu";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import "animate.css";
 import CircularProgress from "@mui/material/CircularProgress";
 
@@ -70,6 +73,7 @@ const Home = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [deleteVal, setDeleteVal] = React.useState(false);
+  const isMobile = useMediaQuery("(max-width:600px)");
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [nftPosts, setNftPosts] = React.useState([]);
@@ -224,43 +228,65 @@ const Home = () => {
       <Box sx={{ flexGrow: 1, marginBottom: "3%" }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              sx={{ mr: 2 }}
-            >
-              <img src={twitter} />
-            </IconButton>{" "}
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              sx={{ mr: 2 }}
-            >
-              <img src={opensea} />
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              sx={{ mr: 2 }}
-            >
-              <img src={discord} />
-            </IconButton>
-            <Button variant="text">About</Button>
-            <Button variant="text">Soldout</Button>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                sx={{ mr: 2 }}
+              >
+                <img src={twitter} />
+              </IconButton>{" "}
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                sx={{ mr: 2 }}
+              >
+                <img src={opensea} />
+              </IconButton>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                sx={{ mr: 2 }}
+              >
+                <img src={discord} />
+              </IconButton>
+              <Button variant="text">About</Button>
+              <Button variant="text">Soldout</Button>
+            </Box>
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { md: "flex" } }}>
+            <Box sx={{ display: { md: "flex", xs: "none" } }}>
               <Button variant="text">Roadmap</Button>
               <Button variant="text">FAQ</Button>
               <Button variant="text">Marketplace</Button>
               <Button variant="contained">Connect</Button>
             </Box>
+            <Box sx={{ display: { md: "none", xs: "block" } }}>
+              <Button
+                variant="contained"
+                style={{ width: "57px", height: "40px", padding: "1%" }}
+              >
+                <img src={wallet} />
+              </Button>
+            </Box>
           </Toolbar>
         </AppBar>
         {renderMobileMenu}
       </Box>
+
       <Grid
         container
         className={classes.main}
@@ -363,16 +389,11 @@ const Home = () => {
             >
               Selected Tokens
             </div>
-            {/* <div
-              style={{ textAlign: "center" }}
-              className={
-                deleteVal ? "animate__animated animate__zoomOutDown" : ""
-              }
-            > */}
+
             <Grid
               container
               spacing={{ xs: 0, lg: 2, md: 2 }}
-              sx={{ padding: "2%" }}
+              sx={{ padding: "2%", overflowX: "auto", height: "58vh" }}
             >
               {reserveNfts.map((data, n) =>
                 data.media.type == "image" ? (
@@ -409,31 +430,17 @@ const Home = () => {
               )}
             </Grid>
 
-            {/* </div> */}
-            {deleteVal ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  position: "absolute",
-                  bottom: "0%",
-                  width: "100%",
-                }}
-              >
-                {/* <img src={dustbin} /> */}
-              </div>
-            ) : (
-              <Button
-                variant="contained"
-                style={{
-                  width: "97%",
-                  bottom: "12px",
-                  position: "absolute",
-                  left: "6px",
-                }}
-              >
-                CONFIRM
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              style={{
+                width: "97%",
+                bottom: "12px",
+                position: "absolute",
+                left: "6px",
+              }}
+            >
+              CONFIRM
+            </Button>
           </div>
         </Grid>
         <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
@@ -461,7 +468,7 @@ const Home = () => {
             >
               Dont think much
             </div>
-            <div style={{ padding: "2%" }}>
+            <div style={{ padding: "2%", overflowX: "auto", height: "58vh" }}>
               {reserveNfts.map((data, k) => (
                 <span
                   key={k}
