@@ -1,5 +1,4 @@
 export const loadNfts = async (wallet_address) => {
-  console.log("calinggggg");
   return fetch(
     `https://eth-mainnet.alchemyapi.io/v2/wk28q9z1rs6i73qyb89ecsyyct5rvfwf/getNFTs/?owner=${wallet_address}`
   )
