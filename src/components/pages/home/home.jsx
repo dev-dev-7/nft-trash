@@ -51,13 +51,13 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "50px!important",
   },
   img: {
-    width: "120px",
+    width: "100%",
     height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
     margin: "2% 1%",
   },
   imgSelect: {
-    width: "120px",
+    width: "100%",
     height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
     margin: "2%1%",
@@ -217,6 +217,10 @@ const Home = () => {
     { type: "v", image: nft },
     { type: "v", image: nft },
     { type: "image", image: nft },
+    { type: "image", image: nft },
+    { type: "v", image: nft },
+    { type: "v", image: nft },
+    { type: "image", image: nft },
   ];
   const price = [
     {
@@ -338,30 +342,26 @@ const Home = () => {
                         : "undefined collection"}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails
-                    style={{
-                      padding: "4px",
-                      textAlign: "center",
-                      display: "flex",
-                    }}
-                  >
-                    {post.nfts.map((data, n) =>
-                      data.media.type == "image" ? (
-                        <Grid item xs={3} md={3} lg={3}>
-                          <img
-                            src={data.media.image}
-                            className={classes.img}
-                            key={n}
-                          />
-                        </Grid>
-                      ) : (
-                        <Grid item xs={3} md={3} lg={3}>
-                          <video className={classes.img} autoPlay controls>
-                            <source src={data.media.video} />
-                          </video>
-                        </Grid>
-                      )
-                    )}
+                  <AccordionDetails>
+                    <Grid container spacing={{ xs: 0, lg: 2, md: 2 }}>
+                      {post.nfts.map((data, n) =>
+                        data.media.type == "image" ? (
+                          <Grid item xs={3} md={3} lg={3}>
+                            <img
+                              src={data.media.image}
+                              className={classes.img}
+                              key={n}
+                            />
+                          </Grid>
+                        ) : (
+                          <Grid item xs={3} md={3} lg={3}>
+                            <video className={classes.img} autoPlay controls>
+                              <source src={data.media.video} />
+                            </video>
+                          </Grid>
+                        )
+                      )}
+                    </Grid>
                   </AccordionDetails>
                 </Accordion>
               ))
@@ -398,22 +398,33 @@ const Home = () => {
             >
               Selected Tokens
             </div>
-            <div
+            {/* <div
               style={{ textAlign: "center" }}
               className={
                 deleteVal ? "animate__animated animate__zoomOutDown" : ""
               }
+            > */}
+            <Grid
+              container
+              spacing={{ xs: 0, lg: 2, md: 2 }}
+              sx={{ padding: "2%" }}
             >
               {collection.map((data, n) =>
                 data.type == "image" ? (
-                  <img src={data.image} className={classes.img} key={n} />
+                  <Grid item xs={3} md={3} lg={3}>
+                    <img src={data.image} className={classes.img} key={n} />
+                  </Grid>
                 ) : (
-                  <video className={classes.img} autoPlay controls key={n}>
-                    <source src={data.image} />
-                  </video>
+                  <Grid item xs={3} md={3} lg={3}>
+                    <video className={classes.img} autoPlay controls key={n}>
+                      <source src={data.image} />
+                    </video>
+                  </Grid>
                 )
               )}
-            </div>
+            </Grid>
+
+            {/* </div> */}
             {deleteVal ? (
               <div
                 style={{
@@ -423,7 +434,7 @@ const Home = () => {
                   width: "100%",
                 }}
               >
-                <img src={dustbin} />
+                {/* <img src={dustbin} /> */}
               </div>
             ) : (
               <Button
