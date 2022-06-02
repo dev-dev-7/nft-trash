@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     width: "100% !important",
     margin: "0px !important",
-    padding: "1%",
+    padding: "2% 1%",
     justifyContent: "center",
   },
   tabheader: {
@@ -51,17 +51,16 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "50px!important",
   },
   img: {
-    width: "107px",
+    width: "120px",
     height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
-    borderRadius: "3px",
-    margin: "0.6%",
+    margin: "2% 1%",
   },
   imgSelect: {
-    width: "107px",
+    width: "120px",
     height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
-    borderRadius: "3px",
+    margin: "2%1%",
   },
   div1: {
     backgroundColor: "white",
@@ -314,7 +313,7 @@ const Home = () => {
         className={classes.main}
         spacing={{ xs: 0, lg: 3, md: 3 }}
       >
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
           <div
             style={{
               backgroundColor: "white",
@@ -339,18 +338,28 @@ const Home = () => {
                         : "undefined collection"}
                     </Typography>
                   </AccordionSummary>
-                  <AccordionDetails style={{ padding: "4px" }}>
+                  <AccordionDetails
+                    style={{
+                      padding: "4px",
+                      textAlign: "center",
+                      display: "flex",
+                    }}
+                  >
                     {post.nfts.map((data, n) =>
                       data.media.type == "image" ? (
-                        <img
-                          src={data.media.image}
-                          className={classes.img}
-                          key={n}
-                        />
+                        <Grid item xs={3} md={3} lg={3}>
+                          <img
+                            src={data.media.image}
+                            className={classes.img}
+                            key={n}
+                          />
+                        </Grid>
                       ) : (
-                        <video className={classes.img} autoPlay controls>
-                          <source src={data.media.video} />
-                        </video>
+                        <Grid item xs={3} md={3} lg={3}>
+                          <video className={classes.img} autoPlay controls>
+                            <source src={data.media.video} />
+                          </video>
+                        </Grid>
                       )
                     )}
                   </AccordionDetails>
@@ -364,14 +373,14 @@ const Home = () => {
             )}
           </div>
         </Grid>
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
           <div
             style={{
               backgroundColor: "white",
               borderRadius: "5px",
               padding: "0.3%",
               position: "relative",
-              height: "69vh",
+              height: "70vh",
             }}
           >
             <div
@@ -431,14 +440,14 @@ const Home = () => {
             )}
           </div>
         </Grid>
-        <Grid item xs={12} md={4} lg={4}>
+        <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
           <div
             style={{
               backgroundColor: "white",
               borderRadius: "5px",
               padding: "0.3%",
               position: "relative",
-              height: "69vh",
+              height: "70vh",
             }}
           >
             <div
