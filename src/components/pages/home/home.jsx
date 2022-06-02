@@ -411,16 +411,11 @@ const Home = () => {
             >
               Selected Tokens
             </div>
-            {/* <div
-              style={{ textAlign: "center" }}
-              className={
-                deleteVal ? "animate__animated animate__zoomOutDown" : ""
-              }
-            > */}
+
             <Grid
               container
               spacing={{ xs: 0, lg: 2, md: 2 }}
-              sx={{ padding: "2%" }}
+              sx={{ padding: "2%", overflowX: "auto", height: "58vh" }}
             >
               {reserveNfts.map((data, n) =>
                 data.media.type == "image" ? (
@@ -457,31 +452,17 @@ const Home = () => {
               )}
             </Grid>
 
-            {/* </div> */}
-            {deleteVal ? (
-              <div
-                style={{
-                  textAlign: "center",
-                  position: "absolute",
-                  bottom: "0%",
-                  width: "100%",
-                }}
-              >
-                {/* <img src={dustbin} /> */}
-              </div>
-            ) : (
-              <Button
-                variant="contained"
-                style={{
-                  width: "97%",
-                  bottom: "12px",
-                  position: "absolute",
-                  left: "6px",
-                }}
-              >
-                CONFIRM
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              style={{
+                width: "97%",
+                bottom: "12px",
+                position: "absolute",
+                left: "6px",
+              }}
+            >
+              CONFIRM
+            </Button>
           </div>
         </Grid>
         <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
@@ -509,7 +490,7 @@ const Home = () => {
             >
               Dont think much
             </div>
-            <div style={{ padding: "2%" }}>
+            <div style={{ padding: "2%", overflowX: "auto", height: "58vh" }}>
               {price.map((priceVal, k) => (
                 <span
                   key={k}
