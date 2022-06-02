@@ -368,6 +368,7 @@ const Home = () => {
               Selected Tokens
             </div>
             <div
+              style={{ textAlign: "center" }}
               className={
                 deleteVal ? "animate__animated animate__zoomOutDown" : ""
               }
