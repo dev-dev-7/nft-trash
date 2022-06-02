@@ -129,9 +129,7 @@ const Home = () => {
     setWalletAddress(address);
     walletListener();
     if (address) {
-      const result = await loadNfts(
-        "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
-      );
+      const result = await loadNfts(address);
       filterNftArray(result);
     }
     if (window.ethereum) {

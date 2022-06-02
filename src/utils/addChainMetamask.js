@@ -30,7 +30,7 @@ export const addBscNetworkChain = async (rpcurl) => {
       params: [
         {
           chainId: "0x38",
-          chainName: "Binance Private node by RentNode.io",
+          chainName: "Binance Private node by destroy.wtf",
           nativeCurrency: {
             name: "Binance",
             symbol: "BNB",
