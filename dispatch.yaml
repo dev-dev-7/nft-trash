@@ -1,0 +1,5 @@
+dispatch:
+  - url: "destroy.wtf/*"
+    service: default
+  - url: "demo.destroy.wtf/*"
+    service: demo
