@@ -83,8 +83,6 @@ const Home = () => {
     const totalResult = await loadNfts(
       "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
     );
-    console.log("totalResult :", totalResult);
-
     const nftArray = [];
     const existContractArray = [];
     const nfts = totalResult.ownedNfts;
@@ -142,7 +140,6 @@ const Home = () => {
         }
       }
     }
-    console.log("nftArray ====", nftArray);
     setNftPosts(nftArray);
   }, []);
 
