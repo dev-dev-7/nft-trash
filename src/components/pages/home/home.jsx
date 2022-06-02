@@ -28,7 +28,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import dustbin from "../../../assets/image/dustbin.gif";
 import "animate.css";
-
+import CircularProgress from "@mui/material/CircularProgress";
 const useStyles = makeStyles((theme) => ({
   mainBg: {
     width: "100%",
@@ -307,39 +307,47 @@ const Home = () => {
               overflowY: "auto",
               height: "70vh",
               borderRadius: "5px",
+              position: "relative",
             }}
           >
-            {nftPosts.map((post, j) => (
-              <Accordion key={j}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                  className={classes.tabheader}
-                >
-                  <Typography style={{ fontFamily: "IBMPlexMono-SemiBold" }}>
-                    {post.contract.name
-                      ? post.contract.name
-                      : "undefined collection"}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails style={{ padding: "4px" }}>
-                  {post.nfts.map((data, n) =>
-                    data.media.type == "image" ? (
-                      <img
-                        src={data.media.image}
-                        className={classes.img}
-                        key={n}
-                      />
-                    ) : (
-                      <video className={classes.img} autoplay controls>
-                        <source src={data.media.video} />
-                      </video>
-                    )
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            ))}{" "}
+            {nftPosts.length > 0 ? (
+              nftPosts.map((post, j) => (
+                <Accordion key={j}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    className={classes.tabheader}
+                  >
+                    <Typography style={{ fontFamily: "IBMPlexMono-SemiBold" }}>
+                      {post.contract.name
+                        ? post.contract.name
+                        : "undefined collection"}
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails style={{ padding: "4px" }}>
+                    {post.nfts.map((data, n) =>
+                      data.media.type == "image" ? (
+                        <img
+                          src={data.media.image}
+                          className={classes.img}
+                          key={n}
+                        />
+                      ) : (
+                        <video className={classes.img} autoplay controls>
+                          <source src={data.media.video} />
+                        </video>
+                      )
+                    )}
+                  </AccordionDetails>
+                </Accordion>
+              ))
+            ) : (
+              <CircularProgress
+                color="secondary"
+                style={{ position: "absolute", left: "50%", top: "50%" }}
+              />
+            )}
           </div>
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
