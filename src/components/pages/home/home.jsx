@@ -442,6 +442,26 @@ const Home = () => {
                   </AccordionDetails>
                 </Accordion>
               ))
+            ) : walletAddress == "" ? (
+              <div
+                style={{
+                  height: "70vh",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "IBMPlexMono-Bold",
+                    textAlign: "center",
+                    color: "#e35130",
+                    paddingTop: "50%",
+                  }}
+                >
+                  Connect To Your Wallet
+                </span>
+              </div>
             ) : (
               <CircularProgress
                 color="secondary"
@@ -478,7 +498,12 @@ const Home = () => {
             <Grid
               container
               spacing={{ xs: 0, lg: 2, md: 2 }}
-              sx={{ padding: "2%", overflowX: "auto", height: "58vh" }}
+              sx={{
+                padding: "2%",
+                overflowX: "auto",
+                height: "58vh",
+                alignContent: "flex-start",
+              }}
             >
               {reserveNfts.map((data, n) =>
                 data.media.type == "image" ? (
