@@ -26,12 +26,9 @@ import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
-<<<<<<< HEAD
 import { TransferNFT } from "../../../utils/transferNFT";
 import { useWeb3Transfer } from "react-moralis";
-=======
 import dustbin from "../../../assets/image/dustbin.gif";
->>>>>>> 70532c67f44da51d3dbfc9b149da49ea272aaee0
 import "animate.css";
 
 const useStyles = makeStyles((theme) => ({
