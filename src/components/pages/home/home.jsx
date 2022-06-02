@@ -20,6 +20,7 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import nft from "../../../assets/image/nft.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
@@ -43,11 +44,16 @@ const useStyles = makeStyles((theme) => ({
   main: {
     backgroundColor: "#F6BBBB",
     border: "4px solid black",
-    borderRadius: "10px",
+    borderRadius: "5px",
     width: "100% !important",
     margin: "0px !important",
     padding: "2% 1%",
     justifyContent: "center",
+    [theme.breakpoints.down("sm")]: {
+      border: "none",
+      padding: "0%",
+      backgroundColor: "#f6bbbb00",
+    },
   },
   tabheader: {
     backgroundColor: "#F4F4F4 !important",
@@ -71,6 +77,29 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "auto",
     height: "69vh",
   },
+  collection: {
+    [theme.breakpoints.down("sm")]: {
+      border: "2px solid black",
+      borderRadius: "5px",
+      marginBottom: "5% !important",
+    },
+  },
+  subcollection: {
+    backgroundColor: "white",
+    borderRadius: "5px",
+    padding: "0.3%",
+    position: "relative",
+    height: "70vh",
+
+    [theme.breakpoints.down("sm")]: { height: "39vh" },
+  },
+  appbar: {
+    border: "4px solid black",
+    borderRadius: "5px",
+    [theme.breakpoints.down("sm")]: {
+      border: "2px solid black",
+    },
+  },
 }));
 
 const Home = () => {
@@ -84,6 +113,15 @@ const Home = () => {
   const [reserveNfts, setReserveNfts] = React.useState([]);
   const [demo, setDemo] = React.useState("");
   const [walletAddress, setWalletAddress] = React.useState("");
+
+  const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const open = Boolean(anchorEl2);
+  const handleClick = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(async () => {
     const { address } = await getCurrentWalletConnected();
@@ -220,6 +258,27 @@ const Home = () => {
     setDemo(nft);
   };
 
+  const collection = [
+    { type: "image", image: nft },
+    { type: "v", image: nft },
+    { type: "v", image: nft },
+    { type: "image", image: nft },
+    { type: "image", image: nft },
+    { type: "v", image: nft },
+    { type: "v", image: nft },
+    { type: "image", image: nft },
+  ];
+
+  const price = [
+    {
+      title: "CHUBBY",
+      cost: "0.151",
+    },
+    {
+      title: "CHUBBY",
+      cost: "0.151",
+    },
+  ];
   const menuId = "primary-search-account-menu";
 
   const mobileMenuId = "primary-search-account-menu-mobile";
@@ -261,17 +320,17 @@ const Home = () => {
   return (
     <>
       <Box sx={{ flexGrow: 1, marginBottom: "3%" }}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appbar}>
           <Toolbar>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
                 aria-haspopup="true"
-                color="inherit"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
               >
-                <MenuIcon />
+                <MenuIcon style={{ color: "black" }} />
               </IconButton>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -332,7 +391,14 @@ const Home = () => {
         className={classes.main}
         spacing={{ xs: 0, lg: 3, md: 3 }}
       >
-        <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
+        <Grid
+          item
+          xs={12}
+          md={4}
+          lg={4}
+          style={{ paddingTop: "0px" }}
+          className={classes.collection}
+        >
           <div
             style={{
               backgroundColor: "white",
@@ -404,16 +470,15 @@ const Home = () => {
             )}
           </div>
         </Grid>
-        <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "5px",
-              padding: "0.3%",
-              position: "relative",
-              height: "70vh",
-            }}
-          >
+        <Grid
+          item
+          xs={12}
+          md={4}
+          lg={4}
+          style={{ paddingTop: "0px" }}
+          className={classes.collection}
+        >
+          <div className={classes.subcollection}>
             <div
               style={{
                 backgroundColor: "#F4F4F4",
@@ -483,16 +548,15 @@ const Home = () => {
             </Button>
           </div>
         </Grid>
-        <Grid item xs={12} md={4} lg={4} style={{ paddingTop: "0px" }}>
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "5px",
-              padding: "0.3%",
-              position: "relative",
-              height: "70vh",
-            }}
-          >
+        <Grid
+          item
+          xs={12}
+          md={4}
+          lg={4}
+          style={{ paddingTop: "0px" }}
+          className={classes.collection}
+        >
+          <div className={classes.subcollection}>
             <div
               style={{
                 backgroundColor: "#F4F4F4",
@@ -509,7 +573,7 @@ const Home = () => {
               Dont think much
             </div>
             <div style={{ padding: "2%", overflowX: "auto", height: "58vh" }}>
-              {reserveNfts.map((data, k) => (
+              {price.map((priceVal, k) => (
                 <span
                   key={k}
                   style={{
@@ -519,7 +583,7 @@ const Home = () => {
                   }}
                 >
                   <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
-                    {data?.media?.name ? data.media.name : "no name"}{" "}
+                    {priceVal.title}{" "}
                   </Typography>
                   <Typography
                     style={{
@@ -631,6 +695,51 @@ const Home = () => {
           </div>
         </Grid> */}
       </Grid>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl2}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          style={{ display: "flex", flexDirection: "column" }}
+        >
+          <Button variant="text">About</Button>
+          <Button variant="text">Soldout</Button>
+          <Button variant="text">Roadmap</Button>
+          <Button variant="text">FAQ</Button>
+          <Button variant="text">Marketplace</Button>
+        </Grid>
+
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <IconButton size="large" edge="start" color="inherit">
+            <img src={twitter} />
+          </IconButton>{" "}
+          <IconButton size="large" edge="start" color="inherit">
+            <img src={opensea} />
+          </IconButton>
+          <IconButton size="large" edge="start" color="inherit">
+            <img src={discord} />
+          </IconButton>
+        </Grid>
+      </Menu>
     </>
   );
 };

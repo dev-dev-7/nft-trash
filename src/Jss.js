@@ -92,11 +92,11 @@ export default function Jss(props) {
           },
         },
       },
-      MuiAppBar: {
-        styleOverrides: {
-          root: { border: "4px solid black", borderRadius: "10px" },
-        },
-      },
+      // MuiAppBar: {
+      //   styleOverrides: {
+      //     root: { border: "4px solid black", borderRadius: "10px" },
+      //   },
+      // },
     },
 
     palette: {
