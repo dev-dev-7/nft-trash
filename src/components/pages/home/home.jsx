@@ -26,6 +26,7 @@ import nft3 from "../../../assets/image/nft3.svg";
 import nft4 from "../../../assets/image/nft4.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
+import dustbin from "../../../assets/image/dustbin.gif";
 import "animate.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -200,9 +201,9 @@ const Home = () => {
   ];
   const collection = [
     { type: "image", image: nft },
-    // { type: "v", image: nft },
-    // { type: "v", image: nft },
-    // { type: "image", image: nft },
+    { type: "v", image: nft },
+    { type: "v", image: nft },
+    { type: "image", image: nft },
   ];
   const price = [
     {
@@ -381,17 +382,30 @@ const Home = () => {
                 )
               )}
             </div>
-            <Button
-              variant="contained"
-              style={{
-                width: "97%",
-                bottom: "12px",
-                position: "absolute",
-                left: "6px",
-              }}
-            >
-              CONFIRM
-            </Button>
+            {deleteVal ? (
+              <div
+                style={{
+                  textAlign: "center",
+                  position: "absolute",
+                  bottom: "0%",
+                  width: "100%",
+                }}
+              >
+                <img src={dustbin} />
+              </div>
+            ) : (
+              <Button
+                variant="contained"
+                style={{
+                  width: "97%",
+                  bottom: "12px",
+                  position: "absolute",
+                  left: "6px",
+                }}
+              >
+                CONFIRM
+              </Button>
+            )}
           </div>
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
