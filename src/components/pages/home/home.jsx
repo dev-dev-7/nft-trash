@@ -105,7 +105,6 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [deleteVal, setDeleteVal] = React.useState(false);
   const isMobile = useMediaQuery("(max-width:600px)");
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -188,6 +187,7 @@ const Home = () => {
                 title: nfts[i].title,
                 media: nfts[i].metadata,
                 token: nfts[i].id,
+                contract: nfts[i].contract.address,
               };
               nftArray[index].nfts.push(objChild);
             } else {
@@ -198,6 +198,7 @@ const Home = () => {
                     title: nfts[i].title,
                     media: nfts[i].metadata,
                     token: nfts[i].id,
+                    contract: nfts[i].contract.address,
                   },
                 ],
               };
@@ -261,6 +262,17 @@ const Home = () => {
     );
     setReserveNfts(oldArray);
     setDemo(nft);
+  };
+
+  const handleDestroyNft = async () => {
+    if (reserveNfts.length > 0) {
+      for (let i = 0; i < reserveNfts.length; i++) {
+        await TransferNFT(
+          reserveNfts[i].contract,
+          reserveNfts[i].token.tokenId
+        );
+      }
+    }
   };
 
   const menuId = "primary-search-account-menu";
@@ -621,7 +633,7 @@ const Home = () => {
                   position: "absolute",
                   left: "6px",
                 }}
-                onClick={() => setDeleteVal(true)}
+                onClick={() => handleDestroyNft()}
               >
                 Just do it
               </Button>
