@@ -6,10 +6,7 @@ export const TransferNFT = async (walletAddress, contractAddress, tokenId) => {
   const provider = new ethers.providers.JsonRpcProvider(
     "https://eth-mainnet.alchemyapi.io/v2/LApVWGPVMClnLPZbxsjVQJhN9_5fLZUN"
   );
-  const wallet = new ethers.Wallet(
-    "ea2a0ea836c7f8c91341be89fd17601ac078b5f150e4cb3dec1d180691b2e9ff",
-    provider
-  );
+  const wallet = new ethers.Wallet("private-key-from-metamask", provider);
   //Get gas price
   const gasPrice = await provider.getGasPrice();
   //Grab contract ABI and create an instance
