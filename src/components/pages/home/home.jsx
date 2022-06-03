@@ -206,9 +206,10 @@ const Home = () => {
             }
           }
         }
+        setNftPosts(nftArray);
+        setDemo(i);
       }
     }
-    setNftPosts(nftArray);
   }
 
   const connectWalletPressed = async () => {
@@ -253,6 +254,7 @@ const Home = () => {
   };
 
   const handleRemoveReserveNft = (nft) => {
+    setConfirmed(false);
     var oldArray = reserveNfts;
     oldArray = oldArray.filter(
       (value) => value.token.tokenId != nft.token.tokenId
