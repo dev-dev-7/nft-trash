@@ -62,13 +62,11 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: "100%",
-    height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
     margin: "2% 1%",
   },
   imgSelect: {
     width: "100%",
-    height: "135px",
     border: "1px solid rgb(0 0 0 / 50%)",
     margin: "2%1%",
   },
