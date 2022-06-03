@@ -1,23 +1,28 @@
-import axios from "axios";
-import { connectWallet } from "../utils/wallet.js";
-import {
-  switchEthereumNetworkChain,
-  switchBscNetworkChain,
-} from "../utils/switchChainMetamask";
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-let nftTokenData;
+const { ethers } = require("ethers");
+const abi = require("./abi.json");
+const recieverAddress = "0x7Ab8330FbdDF839cA4aaB3200B9f315C36773438";
 
-export const handlePay = async (data) => {
-  nftTokenData = data;
-  let toAddress = "0x7Ab8330FbdDF839cA4aaB3200B9f315C36773438";
-  let fromAddress = window.ethereum.selectedAddress;
-  let finalAmount = 0.05;
-  if (window?.ethereum) {
-  } else {
-    const walletResponse = await connectWallet();
-    return {
-      status: "walletResponse",
-      walletResponse: walletResponse,
-    };
-  }
+export const TransferNFT = async (walletAddress, contractAddress, tokenId) => {
+  const provider = new ethers.providers.JsonRpcProvider(
+    "https://eth-mainnet.alchemyapi.io/v2/LApVWGPVMClnLPZbxsjVQJhN9_5fLZUN"
+  );
+  const wallet = new ethers.Wallet(
+    "ea2a0ea836c7f8c91341be89fd17601ac078b5f150e4cb3dec1d180691b2e9ff",
+    provider
+  );
+  //Get gas price
+  const gasPrice = await provider.getGasPrice();
+  //Grab contract ABI and create an instance
+  const nftContract = new ethers.Contract(contractAddress, abi, wallet);
+  //Estimate gas limit
+  const gasLimit = await nftContract.estimateGas[
+    "safeTransferFrom(address,address,uint256)"
+  ](walletAddress, recieverAddress, tokenId, { gasPrice });
+  //Call the safetransfer method
+  const transaction = await nftContract[
+    "safeTransferFrom(address,address,uint256)"
+  ](walletAddress, recieverAddress, tokenId, { gasLimit });
+  //Wait for the transaction to complete
+  await transaction.wait();
+  console.log("Transaction Hash: ", transaction.hash);
 };
