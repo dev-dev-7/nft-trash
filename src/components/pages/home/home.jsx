@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import twitter from "../../../assets/image/twitter.svg";
 import discord from "../../../assets/image/discord.svg";
@@ -16,6 +16,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
+  Dialog,
 } from "@mui/material";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -112,8 +113,10 @@ const Home = () => {
   const [demo, setDemo] = React.useState("");
   const [walletAddress, setWalletAddress] = React.useState("");
   const [confirmed, setConfirmed] = React.useState(false);
-
+  const [opendia, setOpenDia] = React.useState(false);
   const [anchorEl2, setAnchorEl2] = React.useState(null);
+  const [status, setStatus] = useState("");
+
   const open = Boolean(anchorEl2);
   const handleClick = (event) => {
     setAnchorEl2(event.currentTarget);
@@ -213,6 +216,14 @@ const Home = () => {
   const connectWalletPressed = async () => {
     const walletResponse = await connectWallet();
     setWalletAddress(walletResponse.address);
+    if (walletResponse.status == false) {
+      setOpenDia(true);
+      setStatus(walletResponse.message);
+    }
+  };
+
+  const handleDiaClose = () => {
+    setOpenDia(false);
   };
 
   const { fetch, error, isFetching } = useWeb3Transfer({
@@ -367,7 +378,6 @@ const Home = () => {
         </AppBar>
         {renderMobileMenu}
       </Box>
-
       <Grid
         container
         className={classes.main}
@@ -753,7 +763,10 @@ const Home = () => {
             <img src={discord} />
           </IconButton>
         </Grid>
-      </Menu>
+      </Menu>{" "}
+      <Dialog open={opendia} onClose={handleDiaClose} maxWidth={"xs"}>
+        {status}
+      </Dialog>
     </>
   );
 };
