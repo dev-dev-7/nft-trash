@@ -21,11 +21,8 @@ import {
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import nft from "../../../assets/image/nft.svg";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { loadNfts, getContractDetails } from "../../../utils/getNfts";
-import { TransferNFT } from "../../../utils/transferNFT";
-import { useWeb3Transfer } from "react-moralis";
 import wallet from "../../../assets/image/wallet.svg";
 import MenuIcon from "@mui/icons-material/Menu";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -36,91 +33,28 @@ import {
   getCurrentWalletConnected,
   walletListener,
 } from "../../../utils/wallet.js";
-
-const useStyles = makeStyles((theme) => ({
-  mainBg: {
-    width: "100%",
-    padding: "2% 8%",
-  },
-  main: {
-    backgroundColor: "#F6BBBB",
-    border: "4px solid black",
-    borderRadius: "5px",
-    width: "100% !important",
-    margin: "0px !important",
-    padding: "2% 1%",
-    justifyContent: "center",
-    [theme.breakpoints.down("sm")]: {
-      border: "none",
-      padding: "0%",
-      backgroundColor: "#f6bbbb00",
-    },
-  },
-  tabheader: {
-    backgroundColor: "#F4F4F4 !important",
-    height: "50px",
-    minHeight: "50px!important",
-  },
-  img: {
-    width: "100%",
-    border: "1px solid rgb(0 0 0 / 50%)",
-    margin: "2% 1%",
-  },
-  imgSelect: {
-    width: "100%",
-    border: "1px solid rgb(0 0 0 / 50%)",
-    margin: "2%1%",
-  },
-  div1: {
-    backgroundColor: "white",
-    overflowY: "auto",
-    height: "69vh",
-  },
-  collection: {
-    [theme.breakpoints.down("sm")]: {
-      border: "2px solid black",
-      borderRadius: "5px",
-      marginBottom: "5% !important",
-    },
-  },
-  subcollection: {
-    backgroundColor: "white",
-    borderRadius: "5px",
-    padding: "0.3%",
-    position: "relative",
-    height: "70vh",
-
-    [theme.breakpoints.down("sm")]: { height: "39vh" },
-  },
-  appbar: {
-    border: "4px solid black",
-    borderRadius: "5px",
-    [theme.breakpoints.down("sm")]: {
-      border: "2px solid black",
-    },
-  },
-}));
+import { transferBulkNFT } from "../../../utils/transferBulkNFT";
 
 const Home = () => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [deleteVal, setDeleteVal] = React.useState(false);
-  const isMobile = useMediaQuery("(max-width:600px)");
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const [nftPosts, setNftPosts] = React.useState([]);
   const [reserveNfts, setReserveNfts] = React.useState([]);
-  const [demo, setDemo] = React.useState("");
   const [walletAddress, setWalletAddress] = React.useState("");
   const [confirmed, setConfirmed] = React.useState(false);
   const [opendia, setOpenDia] = React.useState(false);
   const [anchorEl2, setAnchorEl2] = React.useState(null);
   const [status, setStatus] = useState("");
-
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const isMobile = useMediaQuery("(max-width:600px)");
+  const [demo, setDemo] = React.useState("");
   const open = Boolean(anchorEl2);
+
   const handleClick = (event) => {
     setAnchorEl2(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -130,22 +64,15 @@ const Home = () => {
     setWalletAddress(address);
     walletListener();
     if (address) {
-      const result = await loadNfts(
-        "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
-      ); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
+      const result = await loadNfts(address); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
       filterNftArray(result);
     }
     if (window.ethereum) {
-      // window.ethereum.on("chainChanged", () => {
-      //   console.log("NETWORK: ", getMetamaskNetwork(window.ethereum.chainId));
-      // });
       window.ethereum.on("accountsChanged", async () => {
         const { address } = await getCurrentWalletConnected();
         setWalletAddress(address);
         if (address) {
-          const result = await loadNfts(
-            "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
-          ); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
+          const result = await loadNfts(address); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
           filterNftArray(result);
         }
       });
@@ -189,6 +116,7 @@ const Home = () => {
                 title: nfts[i].title,
                 media: nfts[i].metadata,
                 token: nfts[i].id,
+                contract: nfts[i].contract.address,
               };
               nftArray[index].nfts.push(objChild);
             } else {
@@ -199,6 +127,7 @@ const Home = () => {
                     title: nfts[i].title,
                     media: nfts[i].metadata,
                     token: nfts[i].id,
+                    contract: nfts[i].contract.address,
                   },
                 ],
               };
@@ -226,14 +155,6 @@ const Home = () => {
     setOpenDia(false);
   };
 
-  const { fetch, error, isFetching } = useWeb3Transfer({
-    type: "erc721",
-    receiver: "0x8f9C9fc379e1d265872232A248F5259DC95B4bCd",
-    contractAddress: "0x..",
-    tokenId: 1,
-    amount: 15,
-  });
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -251,6 +172,7 @@ const Home = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  // Pick NFT to Destroy
   const handleReserveNft = (nft) => {
     var newArray = nft;
     var oldArray = reserveNfts;
@@ -262,6 +184,7 @@ const Home = () => {
     setDemo(nft);
   };
 
+  // Remove from Destroy
   const handleRemoveReserveNft = (nft) => {
     setConfirmed(false);
     var oldArray = reserveNfts;
@@ -272,7 +195,10 @@ const Home = () => {
     setDemo(nft);
   };
 
-  const menuId = "primary-search-account-menu";
+  // Destory action
+  const handleDestroyNft = async () => {
+    await transferBulkNFT(reserveNfts);
+  };
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
@@ -629,95 +555,13 @@ const Home = () => {
                   position: "absolute",
                   left: "6px",
                 }}
-                onClick={() => setDeleteVal(true)}
+                onClick={() => handleDestroyNft()}
               >
                 Just do it
               </Button>
             )}
           </div>
         </Grid>
-
-        {/* <Grid item xs={12} md={4} lg={4}>
-          <div>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              style={{
-                height: "26vh",
-                backgroundColor: "white",
-                borderRadius: "5px",
-                padding: "0.3%",
-                position: "relative",
-              }}
-            >
-              <div
-                style={{
-                  backgroundColor: "#F4F4F4",
-                  height: "45px",
-                  borderTopLeftRadius: "6px",
-                  borderTopRightRadius: "6px",
-                  fontSize: "20px",
-                  fontFamily: "IBMPlexMono-SemiBold",
-                  display: "flex",
-                  alignItems: "center",
-                  paddingLeft: "2%",
-                }}
-              >
-                Dont think much
-              </div>
-              <div style={{ padding: "2%" }}>
-                {price.map((priceVal, k) => (
-                  <span
-                    key={k}
-                    style={{
-                      display: "flex",
-                      alignContent: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Typography style={{ fontFamily: "IBMPlexMono-Bold" }}>
-                      {priceVal.title}{" "}
-                    </Typography>
-                    <Typography
-                      style={{
-                        color: "#FF5C5C",
-                        fontFamily: "IBMPlexMono-Bold",
-                      }}
-                    >
-                      {priceVal.cost}
-                      {" ETH"}
-                    </Typography>
-                  </span>
-                ))}
-              </div>
-              <Button
-                onClick={() => fetch()}
-                disabled={isFetching}
-                variant="contained"
-                startIcon={<DeleteIcon style={{ fontSize: "24px" }} />}
-                style={{ position: "absolute", bottom: "5px", width: "98%" }}
-              >
-                Just do it
-              </Button>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={12}
-              lg={12}
-              style={{
-                backgroundColor: "white",
-                borderRadius: "5px",
-                padding: "0.3%",
-                position: "relative",
-                height: "40vh",
-                marginTop: "5%",
-              }}
-            ></Grid>
-          </div>
-        </Grid> */}
       </Grid>
       <Menu
         id="basic-menu"
@@ -771,3 +615,67 @@ const Home = () => {
   );
 };
 export default Home;
+
+const useStyles = makeStyles((theme) => ({
+  mainBg: {
+    width: "100%",
+    padding: "2% 8%",
+  },
+  main: {
+    backgroundColor: "#F6BBBB",
+    border: "4px solid black",
+    borderRadius: "5px",
+    width: "100% !important",
+    margin: "0px !important",
+    padding: "2% 1%",
+    justifyContent: "center",
+    [theme.breakpoints.down("sm")]: {
+      border: "none",
+      padding: "0%",
+      backgroundColor: "#f6bbbb00",
+    },
+  },
+  tabheader: {
+    backgroundColor: "#F4F4F4 !important",
+    height: "50px",
+    minHeight: "50px!important",
+  },
+  img: {
+    width: "100%",
+    border: "1px solid rgb(0 0 0 / 50%)",
+    margin: "2% 1%",
+  },
+  imgSelect: {
+    width: "100%",
+    border: "1px solid rgb(0 0 0 / 50%)",
+    margin: "2%1%",
+  },
+  div1: {
+    backgroundColor: "white",
+    overflowY: "auto",
+    height: "69vh",
+  },
+  collection: {
+    [theme.breakpoints.down("sm")]: {
+      border: "2px solid black",
+      borderRadius: "5px",
+      marginBottom: "5% !important",
+    },
+  },
+  subcollection: {
+    backgroundColor: "white",
+    borderRadius: "5px",
+    padding: "0.3%",
+    position: "relative",
+    height: "70vh",
+
+    [theme.breakpoints.down("sm")]: { height: "39vh" },
+  },
+  appbar: {
+    border: "4px solid black",
+    borderRadius: "5px",
+    [theme.breakpoints.down("sm")]: {
+      border: "2px solid black",
+    },
+  },
+}));
