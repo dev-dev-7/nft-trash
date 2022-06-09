@@ -64,7 +64,9 @@ const Home = () => {
     setWalletAddress(address);
     walletListener();
     if (address) {
-      const result = await loadNfts(address); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
+      const result = await loadNfts(
+        "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
+      ); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
       filterNftArray(result);
     }
     if (window.ethereum) {
@@ -72,7 +74,9 @@ const Home = () => {
         const { address } = await getCurrentWalletConnected();
         setWalletAddress(address);
         if (address) {
-          const result = await loadNfts(address); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
+          const result = await loadNfts(
+            "0xA6d873e66874780a03C5Fd7fb86996bb310271bb"
+          ); // 0xA6d873e66874780a03C5Fd7fb86996bb310271bb
           filterNftArray(result);
         }
       });
@@ -449,16 +453,20 @@ const Home = () => {
                     item
                     xs={3}
                     md={3}
-                    lg={3}
+                    lg={6}
                     onClick={() => {
                       handleRemoveReserveNft(data);
                     }}
                   >
-                    <img
-                      src={data.media.image}
-                      className={classes.img}
-                      key={n}
-                    />
+                    <div className="paper">
+                      <div className="color-overlay">
+                        <img
+                          src={data.media.image}
+                          className={classes.img}
+                          key={n}
+                        />
+                      </div>
+                    </div>
                   </Grid>
                 ) : (
                   <Grid
