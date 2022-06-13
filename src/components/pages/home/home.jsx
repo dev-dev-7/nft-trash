@@ -159,22 +159,12 @@ const Home = () => {
     setOpenDia(false);
   };
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
 
   // Pick NFT to Destroy
   const handleReserveNft = (nft) => {
@@ -453,20 +443,22 @@ const Home = () => {
                     item
                     xs={3}
                     md={3}
-                    lg={6}
+                    lg={3}
                     onClick={() => {
                       handleRemoveReserveNft(data);
                     }}
                   >
-                    <div className="paper">
-                      <div className="color-overlay">
-                        <img
+                       <img
                           src={data.media.image}
                           className={classes.img}
                           key={n}
                         />
+ {/*  
+ <div className="paper"  transition-style="out:circle:hesitate">
+                      <div className="color-overlay">
+                     
                       </div>
-                    </div>
+                    </div>*/}
                   </Grid>
                 ) : (
                   <Grid
